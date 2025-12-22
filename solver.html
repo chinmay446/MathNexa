@@ -96,10 +96,10 @@
                             </div>
                             
                             <!-- Virtual Keyboard -->
-                            <div class="virtual-keyboard-container">
+                            <div class="virtual-keyboard-container" style="display: none;">
                                 <div class="virtual-keyboard-header">
                                     <h4><i class="fas fa-keyboard"></i> Math Keyboard</h4>
-                                    <button class="toggle-keyboard-btn">Hide Keyboard</button>
+                                    <button class="toggle-keyboard-btn">Show Keyboard</button>
                                 </div>
                                 
                                 <div class="keyboard-tabs">
@@ -159,9 +159,10 @@
                                     <button class="keyboard-key operator" data-value="=">=</button>
                                     <button class="keyboard-key operator" data-value="<"><</button>
                                     <button class="keyboard-key operator" data-value=">">></button>
-                                    <button class="keyboard-key operator" data-value="!">!</button>
                                     <button class="keyboard-key operator" data-value="π">π</button>
                                     <button class="keyboard-key operator" data-value="e">e</button>
+                                    <button class="keyboard-key operator wide" data-value="**">^</button>
+                                    <button class="keyboard-key operator wide" data-value="sqrt(">√( )</button>
                                 </div>
                                 
                                 <!-- Special Keyboard -->
@@ -181,6 +182,7 @@
                                 <div class="keyboard-actions">
                                     <button class="keyboard-key" data-action="left"><i class="fas fa-arrow-left"></i></button>
                                     <button class="keyboard-key" data-action="right"><i class="fas fa-arrow-right"></i></button>
+                                    <button class="keyboard-key wide" data-action="clear">Clear All</button>
                                 </div>
                             </div>
                             
@@ -191,6 +193,7 @@
                                     <li>Use * for multiplication: 2*x*y</li>
                                     <li>Use standard functions: sin(x), cos(y), exp(x), ln(x)</li>
                                     <li>Parentheses for grouping: (x+y)^2</li>
+                                    <li>Click "Show Keyboard" for math symbols</li>
                                 </ul>
                             </div>
                         </div>
@@ -229,6 +232,16 @@
                                     <div class="example-equation">y² dx + 2xy dy = 0</div>
                                     <div class="example-type">Exact</div>
                                 </button>
+                                
+                                <button class="example-btn" data-m="x+y" data-n="x-y">
+                                    <div class="example-equation">(x+y) dx + (x-y) dy = 0</div>
+                                    <div class="example-type">Exact</div>
+                                </button>
+                                
+                                <button class="example-btn" data-m="2y" data-n="3x^2">
+                                    <div class="example-equation">2y dx + 3x² dy = 0</div>
+                                    <div class="example-type">μ(y) needed</div>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -261,55 +274,6 @@
                             <button id="copy-btn" class="btn btn-outline" disabled>
                                 <i class="fas fa-copy"></i> Copy Solution
                             </button>
-                            <button id="save-btn" class="btn btn-outline" disabled>
-                                <i class="fas fa-save"></i> Save as PDF
-                            </button>
-                            <button id="share-btn" class="btn btn-outline" disabled>
-                                <i class="fas fa-share-alt"></i> Share
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Advanced Options -->
-                <div class="advanced-options glass-card">
-                    <div class="options-header">
-                        <h3><i class="fas fa-sliders-h"></i> Advanced Options</h3>
-                        <button id="toggle-options" class="btn btn-small">
-                            <i class="fas fa-chevron-down"></i> Show Options
-                        </button>
-                    </div>
-                    
-                    <div id="options-content" class="options-content" style="display: none;">
-                        <div class="options-grid">
-                            <div class="option-group">
-                                <label for="step-detail">Step Detail Level</label>
-                                <select id="step-detail" class="form-select">
-                                    <option value="basic">Basic Steps</option>
-                                    <option value="detailed" selected>Detailed Steps</option>
-                                    <option value="verbose">Verbose (All Calculations)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="option-group">
-                                <label for="notation">Mathematical Notation</label>
-                                <select id="notation" class="form-select">
-                                    <option value="standard" selected>Standard (dy/dx)</option>
-                                    <option value="leibniz">Leibniz (d/dx)</option>
-                                    <option value="prime">Prime Notation (y')</option>
-                                </select>
-                            </div>
-                            
-                            <div class="option-group">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="show-graph" checked>
-                                    <span>Show solution graph</span>
-                                </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="simplify-steps" checked>
-                                    <span>Simplify intermediate steps</span>
-                                </label>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -396,9 +360,9 @@
                         <h4>Support</h4>
                         <ul>
                             <li><a href="contact.html">Contact</a></li>
-                            <li><a href="#" data-tooltip="Coming soon!">Help Center</a></li>
-                            <li><a href="#" data-tooltip="Coming soon!">Privacy Policy</a></li>
-                            <li><a href="#" data-tooltip="Coming soon!">Terms of Use</a></li>
+                            <li><a href="#" onclick="alert('Help Center - Coming Soon!')">Help Center</a></li>
+                            <li><a href="#" onclick="alert('Privacy Policy - Coming Soon!')">Privacy Policy</a></li>
+                            <li><a href="#" onclick="alert('Terms of Use - Coming Soon!')">Terms of Use</a></li>
                         </ul>
                     </div>
                 </div>
