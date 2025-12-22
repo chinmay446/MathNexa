@@ -1,4 +1,4 @@
-// Differential Equation Solver
+// Differential Equation Solver with Virtual Keyboard - Copy paste ready
 
 // DOM Elements
 const solveBtn = document.getElementById('solve-btn');
@@ -18,6 +18,15 @@ const optionsContent = document.getElementById('options-content');
 const graphContainer = document.getElementById('graph-container');
 const showGraphCheckbox = document.getElementById('show-graph');
 
+// Virtual Keyboard Elements
+const toggleKeyboardBtn = document.querySelector('.toggle-keyboard-btn');
+const keyboardContainer = document.querySelector('.virtual-keyboard-container');
+const keyboardTabs = document.querySelectorAll('.keyboard-tab');
+const keyboardKeys = document.querySelectorAll('.keyboard-key');
+
+// Current focused input
+let currentInput = null;
+
 // Example equations database
 const examples = [
     { m: '2xy', n: 'x^2', name: 'Exact Equation', type: 'exact' },
@@ -30,47 +39,317 @@ const examples = [
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('MathNexa Solver initialized');
+    
+    // Set up event listeners for inputs
+    setupInputListeners();
+    
     // Load a default example
     loadExample(0);
     
-    // Set up event listeners
-    solveBtn.addEventListener('click', solveEquation);
-    clearBtn.addEventListener('click', clearAll);
-    randomBtn.addEventListener('click', loadRandomExample);
-    copyBtn.addEventListener('click', copySolution);
-    saveBtn.addEventListener('click', saveAsPDF);
-    shareBtn.addEventListener('click', shareSolution);
+    // Set up event listeners for buttons
+    setupButtonListeners();
+    
+    // Set up virtual keyboard
+    setupVirtualKeyboard();
+    
+    // Initialize MathJax if available
+    if (window.MathJax) {
+        window.MathJax.typesetPromise();
+    }
+});
+
+// Set up input listeners
+function setupInputListeners() {
+    if (MInput) {
+        MInput.addEventListener('focus', () => {
+            currentInput = MInput;
+            highlightCurrentInput();
+            showKeyboard();
+        });
+        
+        MInput.addEventListener('input', () => {
+            validateInput(MInput);
+        });
+    }
+    
+    if (NInput) {
+        NInput.addEventListener('focus', () => {
+            currentInput = NInput;
+            highlightCurrentInput();
+            showKeyboard();
+        });
+        
+        NInput.addEventListener('input', () => {
+            validateInput(NInput);
+        });
+    }
+}
+
+// Highlight current input
+function highlightCurrentInput() {
+    [MInput, NInput].forEach(input => {
+        if (input) {
+            input.style.boxShadow = 'none';
+            input.style.borderColor = 'var(--gray-light)';
+        }
+    });
+    
+    if (currentInput) {
+        currentInput.style.boxShadow = '0 0 0 3px rgba(74, 107, 255, 0.2)';
+        currentInput.style.borderColor = 'var(--primary)';
+    }
+}
+
+// Validate input
+function validateInput(input) {
+    const value = input.value;
+    // Basic validation for mathematical expressions
+    // Allow letters, numbers, operators, parentheses, and basic functions
+    const validPattern = /^[a-zA-Z0-9\+\-\*\/\^\(\)\s\.sincoetanlgexp√πθ]*$/;
+    
+    if (!validPattern.test(value)) {
+        input.style.borderColor = 'var(--danger)';
+        return false;
+    } else {
+        input.style.borderColor = 'var(--gray-light)';
+        return true;
+    }
+}
+
+// Set up button listeners
+function setupButtonListeners() {
+    // Solve button
+    if (solveBtn) {
+        solveBtn.addEventListener('click', solveEquation);
+    }
+    
+    // Clear button
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearAll);
+    }
+    
+    // Random example button
+    if (randomBtn) {
+        randomBtn.addEventListener('click', loadRandomExample);
+    }
+    
+    // Copy button
+    if (copyBtn) {
+        copyBtn.addEventListener('click', copySolution);
+    }
+    
+    // Save button
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveAsPDF);
+    }
+    
+    // Share button
+    if (shareBtn) {
+        shareBtn.addEventListener('click', shareSolution);
+    }
     
     // Example buttons
-    exampleBtns.forEach((btn, index) => {
-        btn.addEventListener('click', () => loadExample(index));
-    });
+    if (exampleBtns) {
+        exampleBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => loadExample(index));
+        });
+    }
     
     // Toggle advanced options
-    toggleOptions.addEventListener('click', () => {
-        const isHidden = optionsContent.style.display === 'none';
-        optionsContent.style.display = isHidden ? 'block' : 'none';
-        toggleOptions.innerHTML = isHidden ? 
-            '<i class="fas fa-chevron-up"></i> Hide Options' : 
-            '<i class="fas fa-chevron-down"></i> Show Options';
-    });
+    if (toggleOptions) {
+        toggleOptions.addEventListener('click', () => {
+            const isHidden = optionsContent.style.display === 'none';
+            optionsContent.style.display = isHidden ? 'block' : 'none';
+            toggleOptions.innerHTML = isHidden ? 
+                '<i class="fas fa-chevron-up"></i> Hide Options' : 
+                '<i class="fas fa-chevron-down"></i> Show Options';
+        });
+    }
     
     // Show/hide graph based on checkbox
-    showGraphCheckbox.addEventListener('change', function() {
-        graphContainer.style.display = this.checked ? 'block' : 'none';
+    if (showGraphCheckbox) {
+        showGraphCheckbox.addEventListener('change', function() {
+            if (graphContainer) {
+                graphContainer.style.display = this.checked ? 'block' : 'none';
+            }
+        });
+    }
+}
+
+// Set up virtual keyboard
+function setupVirtualKeyboard() {
+    // Toggle keyboard visibility
+    if (toggleKeyboardBtn) {
+        toggleKeyboardBtn.addEventListener('click', () => {
+            if (keyboardContainer) {
+                const isHidden = keyboardContainer.style.display === 'none';
+                keyboardContainer.style.display = isHidden ? 'block' : 'none';
+                toggleKeyboardBtn.textContent = isHidden ? 'Hide Keyboard' : 'Show Keyboard';
+            }
+        });
+    }
+    
+    // Keyboard tabs
+    if (keyboardTabs) {
+        keyboardTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                keyboardTabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Show/hide keyboard sections based on tab
+                const tabType = this.dataset.tab;
+                document.querySelectorAll('.keyboard-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                const activeSection = document.getElementById(`keyboard-${tabType}`);
+                if (activeSection) {
+                    activeSection.style.display = 'grid';
+                }
+            });
+        });
+    }
+    
+    // Keyboard keys
+    if (keyboardKeys) {
+        keyboardKeys.forEach(key => {
+            key.addEventListener('click', function() {
+                const action = this.dataset.action;
+                const value = this.dataset.value || this.textContent.trim();
+                
+                handleKeyboardInput(action, value);
+            });
+        });
+    }
+    
+    // Hide keyboard when clicking outside
+    document.addEventListener('click', function(e) {
+        if (keyboardContainer && !keyboardContainer.contains(e.target) && 
+            MInput && !MInput.contains(e.target) && 
+            NInput && !NInput.contains(e.target)) {
+            hideKeyboard();
+        }
     });
-});
+}
+
+// Show virtual keyboard
+function showKeyboard() {
+    if (keyboardContainer) {
+        keyboardContainer.style.display = 'block';
+        if (toggleKeyboardBtn) {
+            toggleKeyboardBtn.textContent = 'Hide Keyboard';
+        }
+    }
+}
+
+// Hide virtual keyboard
+function hideKeyboard() {
+    if (keyboardContainer) {
+        keyboardContainer.style.display = 'none';
+        if (toggleKeyboardBtn) {
+            toggleKeyboardBtn.textContent = 'Show Keyboard';
+        }
+    }
+}
+
+// Handle keyboard input
+function handleKeyboardInput(action, value) {
+    if (!currentInput) return;
+    
+    const input = currentInput;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const text = input.value;
+    
+    switch (action) {
+        case 'backspace':
+            if (start === end && start > 0) {
+                // Delete character before cursor
+                input.value = text.substring(0, start - 1) + text.substring(end);
+                input.selectionStart = input.selectionEnd = start - 1;
+            } else {
+                // Delete selected text
+                input.value = text.substring(0, start) + text.substring(end);
+                input.selectionStart = input.selectionEnd = start;
+            }
+            break;
+            
+        case 'clear':
+            input.value = '';
+            break;
+            
+        case 'space':
+            insertAtCursor(' ');
+            break;
+            
+        case 'enter':
+            // Move to next input
+            if (input === MInput && NInput) {
+                NInput.focus();
+            }
+            break;
+            
+        case 'left':
+            if (start > 0) {
+                input.selectionStart = input.selectionEnd = start - 1;
+            }
+            break;
+            
+        case 'right':
+            if (start < text.length) {
+                input.selectionStart = input.selectionEnd = start + 1;
+            }
+            break;
+            
+        case 'copy':
+            navigator.clipboard.writeText(text.substring(start, end) || text);
+            break;
+            
+        case 'paste':
+            navigator.clipboard.readText().then(clipText => {
+                insertAtCursor(clipText);
+            });
+            break;
+            
+        default:
+            insertAtCursor(value);
+            break;
+    }
+    
+    // Trigger input event for validation
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    
+    // Keep focus on input
+    input.focus();
+}
+
+// Insert text at cursor position
+function insertAtCursor(text) {
+    if (!currentInput) return;
+    
+    const input = currentInput;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    
+    input.value = input.value.substring(0, start) + text + input.value.substring(end);
+    input.selectionStart = input.selectionEnd = start + text.length;
+}
 
 // Load example by index
 function loadExample(index) {
     if (index >= 0 && index < examples.length) {
         const example = examples[index];
-        MInput.value = example.m;
-        NInput.value = example.n;
+        if (MInput) MInput.value = example.m;
+        if (NInput) NInput.value = example.n;
         
         // Update solution status
-        solutionStatus.innerHTML = `<i class="fas fa-check-circle"></i> Example Loaded: ${example.name}`;
-        solutionStatus.style.color = '#00b894';
+        if (solutionStatus) {
+            solutionStatus.innerHTML = `<i class="fas fa-check-circle"></i> Example Loaded: ${example.name}`;
+            solutionStatus.style.color = '#00b894';
+        }
     }
 }
 
@@ -82,47 +361,72 @@ function loadRandomExample() {
 
 // Clear all inputs and solutions
 function clearAll() {
-    MInput.value = '';
-    NInput.value = '';
-    solutionSteps.innerHTML = '';
-    solutionSteps.style.display = 'none';
-    solutionPlaceholder.style.display = 'flex';
-    solutionStatus.innerHTML = '<i class="fas fa-hourglass-start"></i> Ready to solve';
-    solutionStatus.style.color = '#4a6bff';
+    if (MInput) MInput.value = '';
+    if (NInput) NInput.value = '';
     
-    copyBtn.disabled = true;
-    saveBtn.disabled = true;
-    shareBtn.disabled = true;
+    if (solutionSteps) {
+        solutionSteps.innerHTML = '';
+        solutionSteps.style.display = 'none';
+    }
     
-    graphContainer.style.display = 'none';
+    if (solutionPlaceholder) {
+        solutionPlaceholder.style.display = 'flex';
+    }
+    
+    if (solutionStatus) {
+        solutionStatus.innerHTML = '<i class="fas fa-hourglass-start"></i> Ready to solve';
+        solutionStatus.style.color = '#4a6bff';
+    }
+    
+    if (copyBtn) copyBtn.disabled = true;
+    if (saveBtn) saveBtn.disabled = true;
+    if (shareBtn) shareBtn.disabled = true;
+    
+    if (graphContainer) {
+        graphContainer.style.display = 'none';
+    }
+    
+    // Reset current input
+    currentInput = null;
+    highlightCurrentInput();
 }
 
 // Solve the differential equation
 function solveEquation() {
-    const M_expr = MInput.value.trim();
-    const N_expr = NInput.value.trim();
+    const M_expr = MInput ? MInput.value.trim() : '';
+    const N_expr = NInput ? NInput.value.trim() : '';
     
     if (!M_expr || !N_expr) {
         alert('Please enter both M(x,y) and N(x,y)');
         return;
     }
     
+    // Validate inputs
+    if (!validateInput(MInput) || !validateInput(NInput)) {
+        alert('Please check your input for invalid characters');
+        return;
+    }
+    
     // Update solution status
-    solutionStatus.innerHTML = '<i class="fas fa-cog fa-spin"></i> Solving...';
-    solutionStatus.style.color = '#fdcb6e';
+    if (solutionStatus) {
+        solutionStatus.innerHTML = '<i class="fas fa-cog fa-spin"></i> Solving...';
+        solutionStatus.style.color = '#fdcb6e';
+    }
     
     // Hide placeholder, show steps
-    solutionPlaceholder.style.display = 'none';
-    solutionSteps.style.display = 'block';
-    solutionSteps.innerHTML = '';
+    if (solutionPlaceholder) solutionPlaceholder.style.display = 'none';
+    if (solutionSteps) {
+        solutionSteps.style.display = 'block';
+        solutionSteps.innerHTML = '';
+    }
     
     // Enable action buttons
-    copyBtn.disabled = false;
-    saveBtn.disabled = false;
-    shareBtn.disabled = false;
+    if (copyBtn) copyBtn.disabled = false;
+    if (saveBtn) saveBtn.disabled = false;
+    if (shareBtn) shareBtn.disabled = false;
     
     // Show graph if checkbox is checked
-    if (showGraphCheckbox.checked) {
+    if (showGraphCheckbox && showGraphCheckbox.checked && graphContainer) {
         graphContainer.style.display = 'block';
     }
     
@@ -133,15 +437,19 @@ function solveEquation() {
             displaySolutionSteps(solution);
             
             // Update solution status
-            solutionStatus.innerHTML = '<i class="fas fa-check-circle"></i> Solution Complete';
-            solutionStatus.style.color = '#00b894';
+            if (solutionStatus) {
+                solutionStatus.innerHTML = '<i class="fas fa-check-circle"></i> Solution Complete';
+                solutionStatus.style.color = '#00b894';
+            }
         } catch (error) {
             console.error('Error solving equation:', error);
             displayError('Unable to solve the equation. Please check your input format.');
             
             // Update solution status
-            solutionStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Solution Failed';
-            solutionStatus.style.color = '#e17055';
+            if (solutionStatus) {
+                solutionStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Solution Failed';
+                solutionStatus.style.color = '#e17055';
+            }
         }
     }, 500);
 }
@@ -232,9 +540,11 @@ function checkExactness(M, N) {
     if (M === 'y' && N === '2*x') {
         dM_dy = '1';
         dN_dx = '2';
+        isExact = false;
     } else if (M === '2*y' && N === '3*x**2') {
         dM_dy = '2';
         dN_dx = '6*x';
+        isExact = false;
     }
     
     return { isExact, dM_dy, dN_dx };
@@ -376,6 +686,8 @@ function solveWithIntegratingFactor(M, N, exactness, integratingFactor) {
 
 // Display solution steps
 function displaySolutionSteps(solution) {
+    if (!solutionSteps) return;
+    
     solutionSteps.innerHTML = '';
     
     // Step 1: Show original equation
@@ -416,6 +728,8 @@ function displaySolutionSteps(solution) {
 
 // Add a solution step to the display
 function addSolutionStep(number, title, content) {
+    if (!solutionSteps) return;
+    
     const stepDiv = document.createElement('div');
     stepDiv.className = 'solution-step';
     
@@ -436,6 +750,8 @@ function addSolutionStep(number, title, content) {
 
 // Display error message
 function displayError(message) {
+    if (!solutionSteps) return;
+    
     solutionSteps.innerHTML = `
         <div class="solution-step error">
             <div class="step-header">
@@ -457,17 +773,21 @@ function displayError(message) {
 
 // Copy solution to clipboard
 function copySolution() {
+    if (!solutionSteps) return;
+    
     const stepsText = Array.from(solutionSteps.querySelectorAll('.step-content'))
         .map(step => step.textContent)
         .join('\n\n');
     
     navigator.clipboard.writeText(stepsText)
         .then(() => {
-            const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-            setTimeout(() => {
-                copyBtn.innerHTML = originalText;
-            }, 2000);
+            if (copyBtn) {
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    if (copyBtn) copyBtn.innerHTML = originalText;
+                }, 2000);
+            }
         })
         .catch(err => {
             console.error('Failed to copy: ', err);
@@ -494,11 +814,13 @@ function shareSolution() {
         // Fallback: Copy URL to clipboard
         navigator.clipboard.writeText(window.location.href)
             .then(() => {
-                const originalText = shareBtn.innerHTML;
-                shareBtn.innerHTML = '<i class="fas fa-check"></i> URL Copied!';
-                setTimeout(() => {
-                    shareBtn.innerHTML = originalText;
-                }, 2000);
+                if (shareBtn) {
+                    const originalText = shareBtn.innerHTML;
+                    shareBtn.innerHTML = '<i class="fas fa-check"></i> URL Copied!';
+                    setTimeout(() => {
+                        if (shareBtn) shareBtn.innerHTML = originalText;
+                    }, 2000);
+                }
             })
             .catch(err => {
                 console.error('Failed to copy URL: ', err);
