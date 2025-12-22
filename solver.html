@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equation Solver - MathNexa</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∫</text></svg>">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-integral"></i>
+                </div>
+                <a href="index.html" class="logo">Math<span>Nexa</span></a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                <li><a href="aim.html"><i class="fas fa-bullseye"></i> <span>Aim</span></a></li>
+                <li><a href="theory.html"><i class="fas fa-book"></i> <span>Theory</span></a></li>
+                <li><a href="solver.html" class="active"><i class="fas fa-calculator"></i> <span>Solver</span></a></li>
+                <li><a href="pretest.html"><i class="fas fa-clipboard-check"></i> <span>Pre-test</span></a></li>
+                <li><a href="posttest.html"><i class="fas fa-clipboard-list"></i> <span>Post-test</span></a></li>
+                <li><a href="references.html"><i class="fas fa-link"></i> <span>References</span></a></li>
+                <li><a href="contributors.html"><i class="fas fa-users"></i> <span>Contributors</span></a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
+            </ul>
+            
+            <!-- Mobile Menu Button -->
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="header-content">
+                    <h1>Differential Equation Solver</h1>
+                    <p class="header-subtitle">Solve exact equations and find integrating factors step by step</p>
+                </div>
+                <div class="header-illustration">
+                    <i class="fas fa-calculator"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solver Interface -->
+        <section class="solver-section">
+            <div class="container">
+                <div class="solver-container">
+                    <!-- Input Panel -->
+                    <div class="input-panel glass-card">
+                        <div class="panel-header">
+                            <h2><i class="fas fa-edit"></i> Enter Equation</h2>
+                            <div class="panel-subtitle">Enter in the form: M(x,y) dx + N(x,y) dy = 0</div>
+                        </div>
+                        
+                        <div class="equation-input">
+                            <div class="input-group">
+                                <div class="input-with-label">
+                                    <label for="M-input">M(x, y)</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="M-input" placeholder="e.g., 2xy" value="2xy">
+                                        <div class="input-hint">Function of x and y</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-separator">
+                                    <span>dx +</span>
+                                </div>
+                                
+                                <div class="input-with-label">
+                                    <label for="N-input">N(x, y)</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="N-input" placeholder="e.g., x^2" value="x^2">
+                                        <div class="input-hint">Function of x and y</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-separator">
+                                    <span>dy = 0</span>
+                                </div>
+                            </div>
+                            
+                            <div class="input-tips">
+                                <h4><i class="fas fa-lightbulb"></i> Input Tips:</h4>
+                                <ul>
+                                    <li>Use ^ for exponent: x^2 for x²</li>
+                                    <li>Use * for multiplication: 2*x*y</li>
+                                    <li>Use standard functions: sin(x), cos(y), exp(x), ln(x)</li>
+                                    <li>Parentheses for grouping: (x+y)^2</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="control-buttons">
+                            <button id="solve-btn" class="btn btn-primary btn-glow">
+                                <i class="fas fa-play-circle"></i> Solve Equation
+                            </button>
+                            <button id="clear-btn" class="btn btn-outline">
+                                <i class="fas fa-broom"></i> Clear
+                            </button>
+                            <button id="random-btn" class="btn btn-outline">
+                                <i class="fas fa-random"></i> Random Example
+                            </button>
+                        </div>
+                        
+                        <div class="examples-section">
+                            <h3><i class="fas fa-list"></i> Quick Examples</h3>
+                            <div class="examples-grid">
+                                <button class="example-btn" data-m="2xy" data-n="x^2">
+                                    <div class="example-equation">2xy dx + x² dy = 0</div>
+                                    <div class="example-type">Exact</div>
+                                </button>
+                                
+                                <button class="example-btn" data-m="y" data-n="2x">
+                                    <div class="example-equation">y dx + 2x dy = 0</div>
+                                    <div class="example-type">μ(x) needed</div>
+                                </button>
+                                
+                                <button class="example-btn" data-m="3x^2+y" data-n="x-2y">
+                                    <div class="example-equation">(3x²+y) dx + (x-2y) dy = 0</div>
+                                    <div class="example-type">Exact</div>
+                                </button>
+                                
+                                <button class="example-btn" data-m="y^2" data-n="2xy">
+                                    <div class="example-equation">y² dx + 2xy dy = 0</div>
+                                    <div class="example-type">Exact</div>
+                                </button>
+                                
+                                <button class="example-btn" data-m="x+y" data-n="x-y">
+                                    <div class="example-equation">(x+y) dx + (x-y) dy = 0</div>
+                                    <div class="example-type">Exact</div>
+                                </button>
+                                
+                                <button class="example-btn" data-m="2y" data-n="3x^2">
+                                    <div class="example-equation">2y dx + 3x² dy = 0</div>
+                                    <div class="example-type">μ(y) needed</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Solution Panel -->
+                    <div class="solution-panel glass-card">
+                        <div class="panel-header">
+                            <h2><i class="fas fa-list-ol"></i> Solution Steps</h2>
+                            <div class="solution-status" id="solution-status">
+                                <i class="fas fa-hourglass-start"></i> Ready to solve
+                            </div>
+                        </div>
+                        
+                        <div class="solution-container">
+                            <div id="solution-placeholder" class="solution-placeholder">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                                <h3>No Equation Solved Yet</h3>
+                                <p>Enter a differential equation and click "Solve Equation" to see the step-by-step solution.</p>
+                                <p>Or try one of the quick examples on the left.</p>
+                            </div>
+                            
+                            <div id="solution-steps" class="solution-steps" style="display: none;">
+                                <!-- Steps will be dynamically inserted here -->
+                            </div>
+                        </div>
+                        
+                        <div class="solution-actions">
+                            <button id="copy-btn" class="btn btn-outline" disabled>
+                                <i class="fas fa-copy"></i> Copy Solution
+                            </button>
+                            <button id="save-btn" class="btn btn-outline" disabled>
+                                <i class="fas fa-save"></i> Save as PDF
+                            </button>
+                            <button id="share-btn" class="btn btn-outline" disabled>
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Advanced Options -->
+                <div class="advanced-options glass-card">
+                    <div class="options-header">
+                        <h3><i class="fas fa-sliders-h"></i> Advanced Options</h3>
+                        <button id="toggle-options" class="btn btn-small">
+                            <i class="fas fa-chevron-down"></i> Show Options
+                        </button>
+                    </div>
+                    
+                    <div id="options-content" class="options-content" style="display: none;">
+                        <div class="options-grid">
+                            <div class="option-group">
+                                <label for="step-detail">Step Detail Level</label>
+                                <select id="step-detail" class="form-select">
+                                    <option value="basic">Basic Steps</option>
+                                    <option value="detailed" selected>Detailed Steps</option>
+                                    <option value="verbose">Verbose (All Calculations)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="option-group">
+                                <label for="notation">Mathematical Notation</label>
+                                <select id="notation" class="form-select">
+                                    <option value="standard" selected>Standard (dy/dx)</option>
+                                    <option value="leibniz">Leibniz (d/dx)</option>
+                                    <option value="prime">Prime Notation (y')</option>
+                                </select>
+                            </div>
+                            
+                            <div class="option-group">
+                                <label for="constant">Constant of Integration</label>
+                                <select id="constant" class="form-select">
+                                    <option value="C" selected>C</option>
+                                    <option value="K">K</option>
+                                    <option value="c">c</option>
+                                    <option value="c1">c₁</option>
+                                </select>
+                            </div>
+                            
+                            <div class="option-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="show-graph" checked>
+                                    <span>Show solution graph</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="simplify-steps" checked>
+                                    <span>Simplify intermediate steps</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="check-answer">
+                                    <span>Verify solution by differentiation</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Solution Graph -->
+                <div id="graph-container" class="graph-container glass-card" style="display: none;">
+                    <div class="graph-header">
+                        <h3><i class="fas fa-chart-line"></i> Solution Graph</h3>
+                        <p>Family of solutions for different values of the constant C</p>
+                    </div>
+                    <div class="graph-placeholder">
+                        <div class="graph-visual">
+                            <div class="graph-axis">
+                                <div class="axis-x">x</div>
+                                <div class="axis-y">y</div>
+                            </div>
+                            <div class="graph-curves">
+                                <!-- Curves will be simulated with CSS/JS -->
+                                <div class="curve" style="bottom: 30%; transform: rotate(15deg);"></div>
+                                <div class="curve" style="bottom: 50%; transform: rotate(0deg);"></div>
+                                <div class="curve" style="bottom: 70%; transform: rotate(-15deg);"></div>
+                            </div>
+                            <div class="graph-points">
+                                <div class="point" style="left: 30%; bottom: 40%;"></div>
+                                <div class="point" style="left: 50%; bottom: 50%;"></div>
+                                <div class="point" style="left: 70%; bottom: 60%;"></div>
+                            </div>
+                        </div>
+                        <div class="graph-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #4a6bff;"></div>
+                                <span>C = -2</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #6c5ce7;"></div>
+                                <span>C = 0</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #00cec9;"></div>
+                                <span>C = 2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Help Section -->
+        <section class="help-section">
+            <div class="container">
+                <div class="help-cards">
+                    <div class="help-card glass-card">
+                        <div class="help-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>Need Help?</h3>
+                        <p>Check our <a href="theory.html">theory guide</a> for detailed explanations of exact equations and integrating factors.</p>
+                        <a href="theory.html" class="btn btn-small">Learn Theory</a>
+                    </div>
+                    
+                    <div class="help-card glass-card">
+                        <div class="help-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3>Test Your Knowledge</h3>
+                        <p>Take our pre-test and post-test to assess your understanding of differential equations.</p>
+                        <a href="pretest.html" class="btn btn-small">Take Pre-test</a>
+                    </div>
+                    
+                    <div class="help-card glass-card">
+                        <div class="help-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>References</h3>
+                        <p>Explore textbooks and online resources for further study of differential equations.</p>
+                        <a href="references.html" class="btn btn-small">View References</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo-container">
+                        <div class="logo-icon">
+                            <i class="fas fa-integral"></i>
+                        </div>
+                        <a href="index.html" class="logo">Math<span>Nexa</span></a>
+                    </div>
+                    <p class="footer-tagline">Advanced differential equation solver with step-by-step solutions.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="aim.html">Aim</a></li>
+                            <li><a href="theory.html">Theory</a></li>
+                            <li><a href="solver.html">Solver</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Learning</h4>
+                        <ul>
+                            <li><a href="pretest.html">Pre-test</a></li>
+                            <li><a href="posttest.html">Post-test</a></li>
+                            <li><a href="references.html">References</a></li>
+                            <li><a href="contributors.html">Contributors</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2023</span> MathNexa. All rights reserved. Hosted on Blogger.</p>
+                <p class="footer-note">This tool is for educational purposes. Always verify solutions for critical applications.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="solver.js"></script>
+</body>
+</html>
