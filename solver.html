@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∫</text></svg>">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -36,11 +34,11 @@
             </ul>
             
             <!-- Mobile Menu Button -->
-            <div class="hamburger">
+            <button class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-            </div>
+            </button>
         </div>
     </nav>
 
@@ -97,6 +95,95 @@
                                 </div>
                             </div>
                             
+                            <!-- Virtual Keyboard -->
+                            <div class="virtual-keyboard-container">
+                                <div class="virtual-keyboard-header">
+                                    <h4><i class="fas fa-keyboard"></i> Math Keyboard</h4>
+                                    <button class="toggle-keyboard-btn">Hide Keyboard</button>
+                                </div>
+                                
+                                <div class="keyboard-tabs">
+                                    <button class="keyboard-tab active" data-tab="basic">Basic</button>
+                                    <button class="keyboard-tab" data-tab="functions">Functions</button>
+                                    <button class="keyboard-tab" data-tab="operators">Operators</button>
+                                    <button class="keyboard-tab" data-tab="special">Special</button>
+                                </div>
+                                
+                                <!-- Basic Keyboard -->
+                                <div id="keyboard-basic" class="keyboard-grid keyboard-section">
+                                    <!-- Row 1 -->
+                                    <button class="keyboard-key" data-value="1">1</button>
+                                    <button class="keyboard-key" data-value="2">2</button>
+                                    <button class="keyboard-key" data-value="3">3</button>
+                                    <button class="keyboard-key" data-value="4">4</button>
+                                    <button class="keyboard-key" data-value="5">5</button>
+                                    <button class="keyboard-key" data-value="6">6</button>
+                                    <button class="keyboard-key" data-value="7">7</button>
+                                    <button class="keyboard-key" data-value="8">8</button>
+                                    <button class="keyboard-key" data-value="9">9</button>
+                                    <button class="keyboard-key" data-value="0">0</button>
+                                    
+                                    <!-- Row 2 -->
+                                    <button class="keyboard-key" data-value="x">x</button>
+                                    <button class="keyboard-key" data-value="y">y</button>
+                                    <button class="keyboard-key" data-value=".">.</button>
+                                    <button class="keyboard-key" data-value="^">^</button>
+                                    <button class="keyboard-key" data-value="(">(</button>
+                                    <button class="keyboard-key" data-value=")">)</button>
+                                    <button class="keyboard-key" data-action="space">Space</button>
+                                    <button class="keyboard-key" data-action="backspace"><i class="fas fa-backspace"></i></button>
+                                    <button class="keyboard-key" data-action="clear">Clear</button>
+                                    <button class="keyboard-key wide" data-action="enter">Enter</button>
+                                </div>
+                                
+                                <!-- Functions Keyboard -->
+                                <div id="keyboard-functions" class="keyboard-grid keyboard-section" style="display: none;">
+                                    <button class="keyboard-key function" data-value="sin(">sin</button>
+                                    <button class="keyboard-key function" data-value="cos(">cos</button>
+                                    <button class="keyboard-key function" data-value="tan(">tan</button>
+                                    <button class="keyboard-key function" data-value="exp(">exp</button>
+                                    <button class="keyboard-key function" data-value="ln(">ln</button>
+                                    <button class="keyboard-key function" data-value="log(">log</button>
+                                    <button class="keyboard-key function" data-value="sqrt(">√</button>
+                                    <button class="keyboard-key function" data-value="abs(">abs</button>
+                                    <button class="keyboard-key function extra-wide" data-value="dx">dx</button>
+                                    <button class="keyboard-key function extra-wide" data-value="dy">dy</button>
+                                </div>
+                                
+                                <!-- Operators Keyboard -->
+                                <div id="keyboard-operators" class="keyboard-grid keyboard-section" style="display: none;">
+                                    <button class="keyboard-key operator" data-value="+">+</button>
+                                    <button class="keyboard-key operator" data-value="-">-</button>
+                                    <button class="keyboard-key operator" data-value="*">×</button>
+                                    <button class="keyboard-key operator" data-value="/">÷</button>
+                                    <button class="keyboard-key operator" data-value="=">=</button>
+                                    <button class="keyboard-key operator" data-value="<"><</button>
+                                    <button class="keyboard-key operator" data-value=">">></button>
+                                    <button class="keyboard-key operator" data-value="!">!</button>
+                                    <button class="keyboard-key operator" data-value="π">π</button>
+                                    <button class="keyboard-key operator" data-value="e">e</button>
+                                </div>
+                                
+                                <!-- Special Keyboard -->
+                                <div id="keyboard-special" class="keyboard-grid keyboard-section" style="display: none;">
+                                    <button class="keyboard-key special" data-value="∂">∂</button>
+                                    <button class="keyboard-key special" data-value="∫">∫</button>
+                                    <button class="keyboard-key special" data-value="∑">∑</button>
+                                    <button class="keyboard-key special" data-value="∞">∞</button>
+                                    <button class="keyboard-key special" data-value="θ">θ</button>
+                                    <button class="keyboard-key special" data-value="α">α</button>
+                                    <button class="keyboard-key special" data-value="β">β</button>
+                                    <button class="keyboard-key special" data-value="γ">γ</button>
+                                    <button class="keyboard-key special wide" data-action="copy">Copy</button>
+                                    <button class="keyboard-key special wide" data-action="paste">Paste</button>
+                                </div>
+                                
+                                <div class="keyboard-actions">
+                                    <button class="keyboard-key" data-action="left"><i class="fas fa-arrow-left"></i></button>
+                                    <button class="keyboard-key" data-action="right"><i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                            
                             <div class="input-tips">
                                 <h4><i class="fas fa-lightbulb"></i> Input Tips:</h4>
                                 <ul>
@@ -141,16 +228,6 @@
                                 <button class="example-btn" data-m="y^2" data-n="2xy">
                                     <div class="example-equation">y² dx + 2xy dy = 0</div>
                                     <div class="example-type">Exact</div>
-                                </button>
-                                
-                                <button class="example-btn" data-m="x+y" data-n="x-y">
-                                    <div class="example-equation">(x+y) dx + (x-y) dy = 0</div>
-                                    <div class="example-type">Exact</div>
-                                </button>
-                                
-                                <button class="example-btn" data-m="2y" data-n="3x^2">
-                                    <div class="example-equation">2y dx + 3x² dy = 0</div>
-                                    <div class="example-type">μ(y) needed</div>
                                 </button>
                             </div>
                         </div>
@@ -224,16 +301,6 @@
                             </div>
                             
                             <div class="option-group">
-                                <label for="constant">Constant of Integration</label>
-                                <select id="constant" class="form-select">
-                                    <option value="C" selected>C</option>
-                                    <option value="K">K</option>
-                                    <option value="c">c</option>
-                                    <option value="c1">c₁</option>
-                                </select>
-                            </div>
-                            
-                            <div class="option-group">
                                 <label class="checkbox-label">
                                     <input type="checkbox" id="show-graph" checked>
                                     <span>Show solution graph</span>
@@ -242,51 +309,6 @@
                                     <input type="checkbox" id="simplify-steps" checked>
                                     <span>Simplify intermediate steps</span>
                                 </label>
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="check-answer">
-                                    <span>Verify solution by differentiation</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Solution Graph -->
-                <div id="graph-container" class="graph-container glass-card" style="display: none;">
-                    <div class="graph-header">
-                        <h3><i class="fas fa-chart-line"></i> Solution Graph</h3>
-                        <p>Family of solutions for different values of the constant C</p>
-                    </div>
-                    <div class="graph-placeholder">
-                        <div class="graph-visual">
-                            <div class="graph-axis">
-                                <div class="axis-x">x</div>
-                                <div class="axis-y">y</div>
-                            </div>
-                            <div class="graph-curves">
-                                <!-- Curves will be simulated with CSS/JS -->
-                                <div class="curve" style="bottom: 30%; transform: rotate(15deg);"></div>
-                                <div class="curve" style="bottom: 50%; transform: rotate(0deg);"></div>
-                                <div class="curve" style="bottom: 70%; transform: rotate(-15deg);"></div>
-                            </div>
-                            <div class="graph-points">
-                                <div class="point" style="left: 30%; bottom: 40%;"></div>
-                                <div class="point" style="left: 50%; bottom: 50%;"></div>
-                                <div class="point" style="left: 70%; bottom: 60%;"></div>
-                            </div>
-                        </div>
-                        <div class="graph-legend">
-                            <div class="legend-item">
-                                <div class="legend-color" style="background-color: #4a6bff;"></div>
-                                <span>C = -2</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background-color: #6c5ce7;"></div>
-                                <span>C = 0</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background-color: #00cec9;"></div>
-                                <span>C = 2</span>
                             </div>
                         </div>
                     </div>
@@ -374,9 +396,9 @@
                         <h4>Support</h4>
                         <ul>
                             <li><a href="contact.html">Contact</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#" data-tooltip="Coming soon!">Help Center</a></li>
+                            <li><a href="#" data-tooltip="Coming soon!">Privacy Policy</a></li>
+                            <li><a href="#" data-tooltip="Coming soon!">Terms of Use</a></li>
                         </ul>
                     </div>
                 </div>
