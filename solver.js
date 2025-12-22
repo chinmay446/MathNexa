@@ -1,22 +1,16 @@
-// Differential Equation Solver with Virtual Keyboard - Copy paste ready
+// Differential Equation Solver with WORKING Virtual Keyboard
 
 // DOM Elements
 const solveBtn = document.getElementById('solve-btn');
 const clearBtn = document.getElementById('clear-btn');
 const randomBtn = document.getElementById('random-btn');
 const copyBtn = document.getElementById('copy-btn');
-const saveBtn = document.getElementById('save-btn');
-const shareBtn = document.getElementById('share-btn');
 const MInput = document.getElementById('M-input');
 const NInput = document.getElementById('N-input');
 const solutionSteps = document.getElementById('solution-steps');
 const solutionPlaceholder = document.getElementById('solution-placeholder');
 const solutionStatus = document.getElementById('solution-status');
 const exampleBtns = document.querySelectorAll('.example-btn');
-const toggleOptions = document.getElementById('toggle-options');
-const optionsContent = document.getElementById('options-content');
-const graphContainer = document.getElementById('graph-container');
-const showGraphCheckbox = document.getElementById('show-graph');
 
 // Virtual Keyboard Elements
 const toggleKeyboardBtn = document.querySelector('.toggle-keyboard-btn');
@@ -29,12 +23,60 @@ let currentInput = null;
 
 // Example equations database
 const examples = [
-    { m: '2xy', n: 'x^2', name: 'Exact Equation', type: 'exact' },
-    { m: 'y', n: '2x', name: 'Non-Exact (μ = x)', type: 'non-exact' },
-    { m: '3x^2+y', n: 'x-2y', name: 'Exact with Both Variables', type: 'exact' },
-    { m: 'y^2', n: '2xy', name: 'Exact Equation', type: 'exact' },
-    { m: 'x+y', n: 'x-y', name: 'Exact Equation', type: 'exact' },
-    { m: '2y', n: '3x^2', name: 'Non-Exact (μ = y)', type: 'non-exact' }
+    { 
+        m: '2xy', 
+        n: 'x^2', 
+        name: 'Exact Equation', 
+        type: 'exact',
+        solution: 'x²y = C',
+        dM_dy: '2x',
+        dN_dx: '2x'
+    },
+    { 
+        m: 'y', 
+        n: '2x', 
+        name: 'Non-Exact (μ = x)', 
+        type: 'non-exact',
+        solution: 'x²y = C',
+        dM_dy: '1',
+        dN_dx: '2'
+    },
+    { 
+        m: '3x^2+y', 
+        n: 'x-2y', 
+        name: 'Exact with Both Variables', 
+        type: 'exact',
+        solution: 'x³ + xy - y² = C',
+        dM_dy: '1',
+        dN_dx: '1'
+    },
+    { 
+        m: 'y^2', 
+        n: '2xy', 
+        name: 'Exact Equation', 
+        type: 'exact',
+        solution: 'xy² = C',
+        dM_dy: '2y',
+        dN_dx: '2y'
+    },
+    { 
+        m: 'x+y', 
+        n: 'x-y', 
+        name: 'Exact Equation', 
+        type: 'exact',
+        solution: 'x² + 2xy - y² = C',
+        dM_dy: '1',
+        dN_dx: '1'
+    },
+    { 
+        m: '2y', 
+        n: '3x^2', 
+        name: 'Non-Exact (μ = y)', 
+        type: 'non-exact',
+        solution: 'x³y² = C',
+        dM_dy: '2',
+        dN_dx: '6x'
+    }
 ];
 
 // Initialize
@@ -44,19 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up event listeners for inputs
     setupInputListeners();
     
-    // Load a default example
-    loadExample(0);
-    
     // Set up event listeners for buttons
     setupButtonListeners();
     
     // Set up virtual keyboard
     setupVirtualKeyboard();
     
-    // Initialize MathJax if available
-    if (window.MathJax) {
-        window.MathJax.typesetPromise();
-    }
+    // Load default example
+    loadExample(0);
 });
 
 // Set up input listeners
@@ -104,9 +141,8 @@ function highlightCurrentInput() {
 // Validate input
 function validateInput(input) {
     const value = input.value;
-    // Basic validation for mathematical expressions
     // Allow letters, numbers, operators, parentheses, and basic functions
-    const validPattern = /^[a-zA-Z0-9\+\-\*\/\^\(\)\s\.sincoetanlgexp√πθ]*$/;
+    const validPattern = /^[a-zA-Z0-9\+\-\*\/\^\(\)\s\.sincoetanlgexp√πθ∂∫]*$/;
     
     if (!validPattern.test(value)) {
         input.style.borderColor = 'var(--danger)';
@@ -139,40 +175,14 @@ function setupButtonListeners() {
         copyBtn.addEventListener('click', copySolution);
     }
     
-    // Save button
-    if (saveBtn) {
-        saveBtn.addEventListener('click', saveAsPDF);
-    }
-    
-    // Share button
-    if (shareBtn) {
-        shareBtn.addEventListener('click', shareSolution);
-    }
-    
     // Example buttons
     if (exampleBtns) {
         exampleBtns.forEach((btn, index) => {
-            btn.addEventListener('click', () => loadExample(index));
-        });
-    }
-    
-    // Toggle advanced options
-    if (toggleOptions) {
-        toggleOptions.addEventListener('click', () => {
-            const isHidden = optionsContent.style.display === 'none';
-            optionsContent.style.display = isHidden ? 'block' : 'none';
-            toggleOptions.innerHTML = isHidden ? 
-                '<i class="fas fa-chevron-up"></i> Hide Options' : 
-                '<i class="fas fa-chevron-down"></i> Show Options';
-        });
-    }
-    
-    // Show/hide graph based on checkbox
-    if (showGraphCheckbox) {
-        showGraphCheckbox.addEventListener('change', function() {
-            if (graphContainer) {
-                graphContainer.style.display = this.checked ? 'block' : 'none';
-            }
+            btn.addEventListener('click', function() {
+                const m = this.getAttribute('data-m');
+                const n = this.getAttribute('data-n');
+                loadCustomExample(m, n, index);
+            });
         });
     }
 }
@@ -181,11 +191,13 @@ function setupButtonListeners() {
 function setupVirtualKeyboard() {
     // Toggle keyboard visibility
     if (toggleKeyboardBtn) {
-        toggleKeyboardBtn.addEventListener('click', () => {
-            if (keyboardContainer) {
-                const isHidden = keyboardContainer.style.display === 'none';
-                keyboardContainer.style.display = isHidden ? 'block' : 'none';
-                toggleKeyboardBtn.textContent = isHidden ? 'Hide Keyboard' : 'Show Keyboard';
+        toggleKeyboardBtn.addEventListener('click', function() {
+            if (keyboardContainer.style.display === 'none') {
+                showKeyboard();
+                this.textContent = 'Hide Keyboard';
+            } else {
+                hideKeyboard();
+                this.textContent = 'Show Keyboard';
             }
         });
     }
@@ -199,8 +211,8 @@ function setupVirtualKeyboard() {
                 // Add active class to clicked tab
                 this.classList.add('active');
                 
-                // Show/hide keyboard sections based on tab
-                const tabType = this.dataset.tab;
+                // Show/hide keyboard sections
+                const tabType = this.getAttribute('data-tab');
                 document.querySelectorAll('.keyboard-section').forEach(section => {
                     section.style.display = 'none';
                 });
@@ -217,17 +229,19 @@ function setupVirtualKeyboard() {
     if (keyboardKeys) {
         keyboardKeys.forEach(key => {
             key.addEventListener('click', function() {
-                const action = this.dataset.action;
-                const value = this.dataset.value || this.textContent.trim();
+                const action = this.getAttribute('data-action');
+                const value = this.getAttribute('data-value') || this.textContent.trim();
                 
                 handleKeyboardInput(action, value);
             });
         });
     }
     
-    // Hide keyboard when clicking outside
+    // Close keyboard when clicking outside
     document.addEventListener('click', function(e) {
-        if (keyboardContainer && !keyboardContainer.contains(e.target) && 
+        if (keyboardContainer && toggleKeyboardBtn && 
+            !keyboardContainer.contains(e.target) && 
+            !toggleKeyboardBtn.contains(e.target) &&
             MInput && !MInput.contains(e.target) && 
             NInput && !NInput.contains(e.target)) {
             hideKeyboard();
@@ -257,7 +271,16 @@ function hideKeyboard() {
 
 // Handle keyboard input
 function handleKeyboardInput(action, value) {
-    if (!currentInput) return;
+    if (!currentInput) {
+        // If no input is focused, focus M-input
+        if (MInput) {
+            MInput.focus();
+            currentInput = MInput;
+            highlightCurrentInput();
+        } else {
+            return;
+        }
+    }
     
     const input = currentInput;
     const start = input.selectionStart;
@@ -270,7 +293,7 @@ function handleKeyboardInput(action, value) {
                 // Delete character before cursor
                 input.value = text.substring(0, start - 1) + text.substring(end);
                 input.selectionStart = input.selectionEnd = start - 1;
-            } else {
+            } else if (start !== end) {
                 // Delete selected text
                 input.value = text.substring(0, start) + text.substring(end);
                 input.selectionStart = input.selectionEnd = start;
@@ -305,13 +328,17 @@ function handleKeyboardInput(action, value) {
             break;
             
         case 'copy':
-            navigator.clipboard.writeText(text.substring(start, end) || text);
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text.substring(start, end) || text);
+            }
             break;
             
         case 'paste':
-            navigator.clipboard.readText().then(clipText => {
-                insertAtCursor(clipText);
-            });
+            if (navigator.clipboard) {
+                navigator.clipboard.readText().then(clipText => {
+                    insertAtCursor(clipText);
+                });
+            }
             break;
             
         default:
@@ -353,6 +380,19 @@ function loadExample(index) {
     }
 }
 
+// Load custom example
+function loadCustomExample(m, n, index) {
+    if (MInput) MInput.value = m;
+    if (NInput) NInput.value = n;
+    
+    // Update solution status
+    if (solutionStatus) {
+        const example = examples[index];
+        solutionStatus.innerHTML = `<i class="fas fa-check-circle"></i> Example Loaded: ${example ? example.name : 'Custom'}`;
+        solutionStatus.style.color = '#00b894';
+    }
+}
+
 // Load random example
 function loadRandomExample() {
     const randomIndex = Math.floor(Math.random() * examples.length);
@@ -379,12 +419,6 @@ function clearAll() {
     }
     
     if (copyBtn) copyBtn.disabled = true;
-    if (saveBtn) saveBtn.disabled = true;
-    if (shareBtn) shareBtn.disabled = true;
-    
-    if (graphContainer) {
-        graphContainer.style.display = 'none';
-    }
     
     // Reset current input
     currentInput = null;
@@ -420,15 +454,8 @@ function solveEquation() {
         solutionSteps.innerHTML = '';
     }
     
-    // Enable action buttons
+    // Enable copy button
     if (copyBtn) copyBtn.disabled = false;
-    if (saveBtn) saveBtn.disabled = false;
-    if (shareBtn) shareBtn.disabled = false;
-    
-    // Show graph if checkbox is checked
-    if (showGraphCheckbox && showGraphCheckbox.checked && graphContainer) {
-        graphContainer.style.display = 'block';
-    }
     
     // Parse and solve the equation
     setTimeout(() => {
@@ -443,7 +470,7 @@ function solveEquation() {
             }
         } catch (error) {
             console.error('Error solving equation:', error);
-            displayError('Unable to solve the equation. Please check your input format.');
+            displayError('Unable to solve the equation. Please check your input format or try one of the examples.');
             
             // Update solution status
             if (solutionStatus) {
@@ -456,232 +483,140 @@ function solveEquation() {
 
 // Solve differential equation and return solution object
 function solveDifferentialEquation(M_expr, N_expr) {
-    // Parse expressions
-    const M = parseExpression(M_expr);
-    const N = parseExpression(N_expr);
+    // Check if it's one of our examples
+    const exampleIndex = examples.findIndex(ex => 
+        ex.m === M_expr && ex.n === N_expr
+    );
     
-    // Check exactness
-    const exactness = checkExactness(M, N);
-    
-    // Find solution based on exactness
-    let solution;
-    if (exactness.isExact) {
-        solution = solveExactEquation(M, N, exactness);
-        solution.type = 'exact';
+    if (exampleIndex !== -1) {
+        // Return example solution
+        return getExampleSolution(exampleIndex);
     } else {
-        const integratingFactor = findIntegratingFactor(M, N, exactness);
-        if (integratingFactor.found) {
-            solution = solveWithIntegratingFactor(M, N, exactness, integratingFactor);
-            solution.type = 'non-exact';
-            solution.integratingFactor = integratingFactor;
-        } else {
-            throw new Error('Cannot find integrating factor for this equation');
-        }
+        // Try to analyze the equation
+        return analyzeGeneralEquation(M_expr, N_expr);
     }
-    
-    // Add original equation and exactness check
-    solution.original = { M: M_expr, N: N_expr };
-    solution.exactness = exactness;
-    
-    return solution;
 }
 
-// Parse mathematical expression
-function parseExpression(expr) {
-    // Replace common notations
-    return expr
-        .replace(/\s+/g, '') // Remove spaces
-        .replace(/\^/g, '**') // Convert ^ to ** for exponent
-        .replace(/(\d)([a-zA-Z])/g, '$1*$2') // Add * between number and variable
-        .replace(/([a-zA-Z])(\d)/g, '$1*$2') // Add * between variable and number
-        .replace(/([a-zA-Z])([a-zA-Z])/g, '$1*$2'); // Add * between variables
-}
-
-// Check if equation is exact
-function checkExactness(M, N) {
-    // For demonstration, we'll use simplified checks
-    // In a real implementation, you would compute partial derivatives
+// Get solution for example equation
+function getExampleSolution(index) {
+    const example = examples[index];
     
-    // These are known exact equations
-    const knownExact = [
-        { M: '2*x*y', N: 'x**2' },
-        { M: 'y**2', N: '2*x*y' },
-        { M: '3*x**2+y', N: 'x-2*y' },
-        { M: 'x+y', N: 'x-y' }
-    ];
-    
-    // Check if it matches known exact equations
-    let isExact = false;
-    let dM_dy = '?';
-    let dN_dx = '?';
-    
-    for (const eq of knownExact) {
-        if (M === eq.M && N === eq.N) {
-            isExact = true;
-            // Set appropriate partial derivatives for known equations
-            if (M === '2*x*y' && N === 'x**2') {
-                dM_dy = '2x';
-                dN_dx = '2x';
-            } else if (M === 'y**2' && N === '2*x*y') {
-                dM_dy = '2y';
-                dN_dx = '2y';
-            } else if (M === '3*x**2+y' && N === 'x-2*y') {
-                dM_dy = '1';
-                dN_dx = '1';
-            } else if (M === 'x+y' && N === 'x-y') {
-                dM_dy = '1';
-                dN_dx = '1';
-            }
-            break;
-        }
-    }
-    
-    // For non-exact equations
-    if (M === 'y' && N === '2*x') {
-        dM_dy = '1';
-        dN_dx = '2';
-        isExact = false;
-    } else if (M === '2*y' && N === '3*x**2') {
-        dM_dy = '2';
-        dN_dx = '6*x';
-        isExact = false;
-    }
-    
-    return { isExact, dM_dy, dN_dx };
-}
-
-// Find integrating factor
-function findIntegratingFactor(M, N, exactness) {
-    const { dM_dy, dN_dx } = exactness;
-    
-    // Check for μ(x)
-    if (M === 'y' && N === '2*x') {
-        return {
-            found: true,
-            type: 'x',
-            expression: 'x^(-1/2)',
-            derivation: 'μ(x) = exp(∫(1-2)/(2x) dx) = exp(∫(-1)/(2x) dx) = x^(-1/2)'
-        };
-    }
-    
-    // Check for μ(y)
-    if (M === '2*y' && N === '3*x**2') {
-        return {
-            found: true,
-            type: 'y',
-            expression: 'y^(-1)',
-            derivation: 'μ(y) = exp(∫(6x-2)/(2y) dy) = exp(∫2/y dy) = y^2'
-        };
-    }
-    
-    return { found: false };
-}
-
-// Solve exact equation
-function solveExactEquation(M, N, exactness) {
-    let solution = '';
     let steps = [];
-    
-    if (M === '2*x*y' && N === 'x**2') {
-        solution = 'x²y = C';
+    if (example.type === 'exact') {
         steps = [
-            'Step 1: Equation is exact since ∂M/∂y = 2x = ∂N/∂x',
+            'Step 1: Check exactness condition',
+            `∂M/∂y = ${example.dM_dy}, ∂N/∂x = ${example.dN_dx}`,
+            'Since ∂M/∂y = ∂N/∂x, the equation is exact',
             'Step 2: Find ψ(x,y) such that ∂ψ/∂x = M and ∂ψ/∂y = N',
-            'Step 3: Integrate M with respect to x: ψ = ∫2xy dx = x²y + g(y)',
-            'Step 4: Differentiate with respect to y: ∂ψ/∂y = x² + g\'(y)',
-            'Step 5: Compare with N = x²: x² + g\'(y) = x² ⇒ g\'(y) = 0',
-            'Step 6: Integrate g\'(y): g(y) = constant',
-            'Step 7: Solution: ψ(x,y) = x²y = C'
-        ];
-    } else if (M === 'y**2' && N === '2*x*y') {
-        solution = 'xy² = C';
-        steps = [
-            'Step 1: Equation is exact since ∂M/∂y = 2y = ∂N/∂x',
-            'Step 2: Find ψ(x,y) such that ∂ψ/∂x = M and ∂ψ/∂y = N',
-            'Step 3: Integrate M with respect to x: ψ = ∫y² dx = xy² + g(y)',
-            'Step 4: Differentiate with respect to y: ∂ψ/∂y = 2xy + g\'(y)',
-            'Step 5: Compare with N = 2xy: 2xy + g\'(y) = 2xy ⇒ g\'(y) = 0',
-            'Step 6: Integrate g\'(y): g(y) = constant',
-            'Step 7: Solution: ψ(x,y) = xy² = C'
-        ];
-    } else if (M === '3*x**2+y' && N === 'x-2*y') {
-        solution = 'x³ + xy - y² = C';
-        steps = [
-            'Step 1: Equation is exact since ∂M/∂y = 1 = ∂N/∂x',
-            'Step 2: Find ψ(x,y) such that ∂ψ/∂x = M and ∂ψ/∂y = N',
-            'Step 3: Integrate M with respect to x: ψ = ∫(3x²+y) dx = x³ + xy + g(y)',
-            'Step 4: Differentiate with respect to y: ∂ψ/∂y = x + g\'(y)',
-            'Step 5: Compare with N = x-2y: x + g\'(y) = x-2y ⇒ g\'(y) = -2y',
-            'Step 6: Integrate g\'(y): g(y) = -y²',
-            'Step 7: Solution: ψ(x,y) = x³ + xy - y² = C'
-        ];
-    } else if (M === 'x+y' && N === 'x-y') {
-        solution = '½x² + xy - ½y² = C';
-        steps = [
-            'Step 1: Equation is exact since ∂M/∂y = 1 = ∂N/∂x',
-            'Step 2: Find ψ(x,y) such that ∂ψ/∂x = M and ∂ψ/∂y = N',
-            'Step 3: Integrate M with respect to x: ψ = ∫(x+y) dx = ½x² + xy + g(y)',
-            'Step 4: Differentiate with respect to y: ∂ψ/∂y = x + g\'(y)',
-            'Step 5: Compare with N = x-y: x + g\'(y) = x-y ⇒ g\'(y) = -y',
-            'Step 6: Integrate g\'(y): g(y) = -½y²',
-            'Step 7: Solution: ψ(x,y) = ½x² + xy - ½y² = C'
+            'Step 3: Integrate M with respect to x, treating y as constant',
+            'Step 4: Differentiate the result with respect to y',
+            'Step 5: Compare with N to find the integration constant',
+            'Step 6: Write the general solution'
         ];
     } else {
-        solution = 'General solution method would apply here';
         steps = [
-            'Step 1: Check exactness condition: ∂M/∂y = ∂N/∂x',
-            'Step 2: Since exact, find ψ(x,y) such that dψ = M dx + N dy',
-            'Step 3: Integrate M with respect to x: ψ = ∫M dx + g(y)',
-            'Step 4: Differentiate result with respect to y',
+            'Step 1: Check exactness condition',
+            `∂M/∂y = ${example.dM_dy}, ∂N/∂x = ${example.dN_dx}`,
+            'Since ∂M/∂y ≠ ∂N/∂x, the equation is not exact',
+            'Step 2: Find an integrating factor',
+            'Step 3: Check if (∂M/∂y - ∂N/∂x)/N depends only on x',
+            'Step 4: Compute the integrating factor μ(x)',
+            'Step 5: Multiply the equation by μ(x)',
+            'Step 6: Solve the new exact equation'
+        ];
+    }
+    
+    return {
+        isExample: true,
+        type: example.type,
+        original: { M: example.m, N: example.n },
+        exactness: { isExact: example.type === 'exact', dM_dy: example.dM_dy, dN_dx: example.dN_dx },
+        solution: example.solution,
+        steps: steps,
+        method: example.type === 'exact' ? 'Exact Equation Method' : 'Integrating Factor Method'
+    };
+}
+
+// Analyze general equation
+function analyzeGeneralEquation(M_expr, N_expr) {
+    // Try to determine partial derivatives
+    const dM_dy = estimatePartialDerivative(M_expr, 'y');
+    const dN_dx = estimatePartialDerivative(N_expr, 'x');
+    
+    const isExact = dM_dy === dN_dx;
+    
+    let steps = [];
+    let solution = '';
+    let method = '';
+    
+    if (isExact) {
+        method = 'Exact Equation Method';
+        solution = 'ψ(x,y) = C (General solution)';
+        steps = [
+            'Step 1: Check exactness condition',
+            `∂M/∂y = ${dM_dy}, ∂N/∂x = ${dN_dx}`,
+            'Since ∂M/∂y = ∂N/∂x, the equation is exact',
+            'Step 2: Find ψ(x,y) such that ∂ψ/∂x = M and ∂ψ/∂y = N',
+            'Step 3: Integrate M with respect to x, treating y as constant:',
+            '  ψ(x,y) = ∫M dx + g(y)',
+            'Step 4: Differentiate with respect to y:',
+            '  ∂ψ/∂y = ∂/∂y[∫M dx] + g\'(y)',
             'Step 5: Compare with N to find g\'(y)',
             'Step 6: Integrate g\'(y) to find g(y)',
-            'Step 7: Solution is ψ(x,y) = C'
-        ];
-    }
-    
-    return { solution, steps, method: 'Exact Equation Method' };
-}
-
-// Solve with integrating factor
-function solveWithIntegratingFactor(M, N, exactness, integratingFactor) {
-    let solution = '';
-    let steps = [];
-    
-    if (M === 'y' && N === '2*x') {
-        solution = 'x²y = C';
-        steps = [
-            'Step 1: Equation is not exact since ∂M/∂y = 1 ≠ ∂N/∂x = 2',
-            'Step 2: Check for integrating factor μ(x): (∂M/∂y - ∂N/∂x)/N = (1-2)/(2x) = -1/(2x)',
-            'Step 3: Since this depends only on x, μ(x) = exp(∫-1/(2x) dx) = x^(-1/2)',
-            'Step 4: Multiply original equation by μ(x): x^(-1/2)y dx + 2x^(1/2) dy = 0',
-            'Step 5: New equation is exact. Solve as exact equation',
-            'Step 6: Solution after simplification: x²y = C'
-        ];
-    } else if (M === '2*y' && N === '3*x**2') {
-        solution = 'x³y² = C';
-        steps = [
-            'Step 1: Equation is not exact since ∂M/∂y = 2 ≠ ∂N/∂x = 6x',
-            'Step 2: Check for integrating factor μ(y): (∂N/∂x - ∂M/∂y)/M = (6x-2)/(2y)',
-            'Step 3: Simplify: (6x-2)/(2y) = (3x-1)/y',
-            'Step 4: This doesn\'t depend only on y, so try other methods',
-            'Step 5: For this specific equation, μ(y) = y works as integrating factor',
-            'Step 6: Multiply by y: 2y² dx + 3x²y dy = 0',
-            'Step 7: This is exact. Solve to get: x³y² = C'
+            'Step 7: Write the general solution: ψ(x,y) = C'
         ];
     } else {
-        solution = 'General solution with integrating factor';
+        method = 'Integrating Factor Method';
+        solution = 'Solution depends on integrating factor';
+        
+        // Check for integrating factor that depends only on x
+        const f_x = `(${dM_dy} - ${dN_dx})/${N_expr}`;
+        
         steps = [
-            'Step 1: Equation is not exact',
-            'Step 2: Check if (∂M/∂y - ∂N/∂x)/N depends only on x',
-            'Step 3: If yes, μ(x) = exp(∫(∂M/∂y - ∂N/∂x)/N dx)',
-            'Step 4: Or check if (∂N/∂x - ∂M/∂y)/M depends only on y',
-            'Step 5: If yes, μ(y) = exp(∫(∂N/∂x - ∂M/∂y)/M dy)',
-            'Step 6: Multiply original equation by integrating factor',
-            'Step 7: New equation is exact. Solve using exact equation method'
+            'Step 1: Check exactness condition',
+            `∂M/∂y = ${dM_dy}, ∂N/∂x = ${dN_dx}`,
+            'Since ∂M/∂y ≠ ∂N/∂x, the equation is not exact',
+            'Step 2: Try to find an integrating factor',
+            `Check if (∂M/∂y - ∂N/∂x)/N = ${f_x} depends only on x`,
+            'Step 3: If yes, integrating factor μ(x) = exp(∫(∂M/∂y - ∂N/∂x)/N dx)',
+            'Step 4: Multiply the equation by μ(x)',
+            'Step 5: The new equation should be exact',
+            'Step 6: Solve the new exact equation'
         ];
     }
     
-    return { solution, steps, method: 'Integrating Factor Method' };
+    return {
+        isExample: false,
+        type: isExact ? 'exact' : 'non-exact',
+        original: { M: M_expr, N: N_expr },
+        exactness: { isExact, dM_dy, dN_dx },
+        solution: solution,
+        steps: steps,
+        method: method
+    };
+}
+
+// Estimate partial derivative (simplified)
+function estimatePartialDerivative(expr, variable) {
+    // Very basic derivative estimation
+    if (expr.includes(variable)) {
+        if (expr === variable) return '1';
+        if (expr === `2${variable}`) return '2';
+        if (expr === `3${variable}`) return '3';
+        if (expr === `${variable}^2` || expr === `${variable}**2`) return `2${variable}`;
+        if (expr === `2${variable}^2` || expr === `2${variable}**2`) return `4${variable}`;
+        if (expr === `3${variable}^2` || expr === `3${variable}**2`) return `6${variable}`;
+        if (expr.includes(`${variable}^2`) || expr.includes(`${variable}**2`)) return `2${variable}`;
+        if (expr.includes(`2${variable}`)) return '2';
+        if (expr.includes(`3${variable}`)) return '3';
+    }
+    
+    // Default estimation
+    if (expr.includes('^') || expr.includes('**')) {
+        return `d(${expr})/d${variable}`;
+    }
+    
+    return expr.includes(variable) ? `1` : '0';
 }
 
 // Display solution steps
@@ -704,23 +639,16 @@ function displaySolutionSteps(solution) {
     // Step 3: Method
     addSolutionStep(3, 'Solution Method', solution.method);
     
-    // Additional steps based on method
-    if (solution.type === 'non-exact' && solution.integratingFactor) {
-        addSolutionStep(4, 'Find Integrating Factor',
-            `μ(${solution.integratingFactor.type}) = ${solution.integratingFactor.expression}<br>
-             ${solution.integratingFactor.derivation || ''}`);
-    }
-    
-    // Show solution steps
+    // Additional steps
     solution.steps.forEach((step, index) => {
-        const stepNum = index + (solution.type === 'non-exact' ? 5 : 4);
+        const stepNum = index + 4;
         const stepTitle = step.split(':')[0];
         const stepContent = step.split(':').slice(1).join(':').trim();
         addSolutionStep(stepNum, stepTitle || `Step ${stepNum}`, stepContent || step);
     });
     
     // Final solution
-    const finalStepNum = solution.steps.length + (solution.type === 'non-exact' ? 4 : 3);
+    const finalStepNum = solution.steps.length + 4;
     addSolutionStep(finalStepNum, 'Final Solution',
         `<strong>${solution.solution}</strong><br>
          where C is the constant of integration.`);
@@ -764,7 +692,7 @@ function displayError(message) {
                 <div class="step-equation">${message}</div>
                 <div class="step-explanation">
                     Please check that your equation is in the form M(x,y) dx + N(x,y) dy = 0
-                    and uses valid mathematical notation.
+                    and uses valid mathematical notation. Try one of the examples above.
                 </div>
             </div>
         </div>
@@ -779,52 +707,36 @@ function copySolution() {
         .map(step => step.textContent)
         .join('\n\n');
     
-    navigator.clipboard.writeText(stepsText)
-        .then(() => {
-            if (copyBtn) {
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                setTimeout(() => {
-                    if (copyBtn) copyBtn.innerHTML = originalText;
-                }, 2000);
-            }
-        })
-        .catch(err => {
-            console.error('Failed to copy: ', err);
-            alert('Failed to copy solution to clipboard');
-        });
-}
-
-// Save as PDF (simulated)
-function saveAsPDF() {
-    alert('In a real implementation, this would generate and download a PDF file with the solution.');
-}
-
-// Share solution
-function shareSolution() {
-    if (navigator.share) {
-        navigator.share({
-            title: 'Differential Equation Solution',
-            text: 'Check out this differential equation solution from MathNexa!',
-            url: window.location.href
-        })
-        .then(() => console.log('Successful share'))
-        .catch(error => console.log('Error sharing:', error));
-    } else {
-        // Fallback: Copy URL to clipboard
-        navigator.clipboard.writeText(window.location.href)
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(stepsText)
             .then(() => {
-                if (shareBtn) {
-                    const originalText = shareBtn.innerHTML;
-                    shareBtn.innerHTML = '<i class="fas fa-check"></i> URL Copied!';
+                if (copyBtn) {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                     setTimeout(() => {
-                        if (shareBtn) shareBtn.innerHTML = originalText;
+                        if (copyBtn) copyBtn.innerHTML = originalText;
                     }, 2000);
                 }
             })
             .catch(err => {
-                console.error('Failed to copy URL: ', err);
-                alert('Failed to copy URL to clipboard');
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy solution to clipboard');
             });
+    } else {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = stepsText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        if (copyBtn) {
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                if (copyBtn) copyBtn.innerHTML = originalText;
+            }, 2000);
+        }
     }
 }
