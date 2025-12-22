@@ -1,4 +1,4 @@
-// Common JavaScript for all pages - Copy paste ready
+// Common JavaScript for all pages - Fixed Navigation
 
 // DOM Elements
 const hamburger = document.querySelector('.hamburger');
@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mobile Navigation Toggle
     if (hamburger) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
     }
@@ -21,9 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close mobile menu when clicking on a link
     if (navLinks) {
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', function() {
                 if (hamburger) hamburger.classList.remove('active');
                 if (navMenu) navMenu.classList.remove('active');
+                
+                // Update active class
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
             });
         });
     }
@@ -39,14 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize smooth scrolling for anchor links
     initSmoothScrolling();
     
-    // Initialize tooltips
-    initTooltips();
-    
-    // Initialize glass card hover effects
-    initGlassCardEffects();
-    
     // Handle example parameter in URL for solver page
     handleExampleParameter();
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (hamburger && navMenu && 
+            !hamburger.contains(event.target) && 
+            !navMenu.contains(event.target) && 
+            navMenu.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
 });
 
 // Highlight active navigation link
@@ -74,18 +83,15 @@ function highlightActiveNavLink() {
 function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            e.preventDefault();
+            const href = this.getAttribute('href');
             
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+            // Skip if it's just "#"
+            if (href === '#' || href === '#!') return;
             
-            const targetElement = document.querySelector(targetId);
+            // Check if the target exists
+            const targetElement = document.querySelector(href);
             if (targetElement) {
-                // Close mobile menu if open
-                if (hamburger && navMenu) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }
+                e.preventDefault();
                 
                 // Calculate scroll position (adjust for fixed navbar)
                 const navbarHeight = document.querySelector('.navbar').offsetHeight;
@@ -96,56 +102,6 @@ function initSmoothScrolling() {
                     behavior: 'smooth'
                 });
             }
-        });
-    });
-}
-
-// Initialize tooltips
-function initTooltips() {
-    const tooltipElements = document.querySelectorAll('[data-tooltip]');
-    
-    tooltipElements.forEach(element => {
-        element.addEventListener('mouseenter', (e) => {
-            const tooltipText = element.getAttribute('data-tooltip');
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            tooltip.textContent = tooltipText;
-            document.body.appendChild(tooltip);
-            
-            const rect = element.getBoundingClientRect();
-            tooltip.style.position = 'fixed';
-            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
-            tooltip.style.left = (rect.left + rect.width/2 - tooltip.offsetWidth/2) + 'px';
-            tooltip.style.opacity = '0';
-            
-            setTimeout(() => {
-                tooltip.style.opacity = '1';
-                tooltip.style.transform = 'translateY(0)';
-            }, 10);
-            
-            element._tooltip = tooltip;
-        });
-        
-        element.addEventListener('mouseleave', () => {
-            if (element._tooltip) {
-                element._tooltip.remove();
-                element._tooltip = null;
-            }
-        });
-    });
-}
-
-// Initialize glass card hover effects
-function initGlassCardEffects() {
-    document.querySelectorAll('.glass-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-5px)';
-            card.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-            card.style.boxShadow = 'var(--glass-shadow)';
         });
     });
 }
@@ -161,79 +117,65 @@ function handleExampleParameter() {
             setTimeout(() => {
                 const exampleBtns = document.querySelectorAll('.example-btn');
                 if (exampleBtns.length >= example) {
-                    exampleBtns[example - 1].click();
+                    const index = parseInt(example) - 1;
+                    if (index >= 0 && index < exampleBtns.length) {
+                        exampleBtns[index].click();
+                    }
                 }
-            }, 800);
+            }, 500);
         }
     }
 }
 
-// Add CSS for tooltips if not already present
-if (!document.querySelector('style#tooltip-styles')) {
-    const tooltipStyle = document.createElement('style');
-    tooltipStyle.id = 'tooltip-styles';
-    tooltipStyle.textContent = `
-        .tooltip {
-            position: absolute;
-            background: var(--dark);
-            color: white;
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
-            z-index: 10000;
-            pointer-events: none;
-            transform: translateY(10px);
-            transition: opacity 0.2s, transform 0.2s;
-            white-space: nowrap;
-            box-shadow: var(--shadow-md);
-            max-width: 300px;
-            word-wrap: break-word;
-            white-space: normal;
-            text-align: center;
-        }
-        
-        .tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: var(--dark) transparent transparent transparent;
-        }
-    `;
-    document.head.appendChild(tooltipStyle);
+// Utility function to parse math expressions
+function parseMathExpression(expr) {
+    if (!expr) return '';
+    
+    // Convert to string and trim
+    expr = String(expr).trim();
+    
+    // Replace common math notations
+    expr = expr.replace(/\s+/g, ''); // Remove spaces
+    
+    // Handle exponents
+    expr = expr.replace(/\^/g, '**');
+    
+    // Handle implicit multiplication
+    expr = expr.replace(/(\d)([a-zA-Z])/g, '$1*$2'); // 2x -> 2*x
+    expr = expr.replace(/([a-zA-Z])(\d)/g, '$1*$2'); // x2 -> x*2
+    expr = expr.replace(/([a-zA-Z])([a-zA-Z])/g, '$1*$2'); // xy -> x*y
+    expr = expr.replace(/\)([a-zA-Z\d])/g, ')*$1'); // )(x) -> )*(x)
+    expr = expr.replace(/([a-zA-Z\d])\(/g, '$1*('); // x( -> x*(
+    
+    return expr;
 }
 
-// Utility function to check if element is in viewport
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-// Utility function for debouncing
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+// Utility function to simplify expression
+function simplifyExpression(expr) {
+    // Basic simplification rules
+    const simplifications = {
+        'x**0': '1',
+        '1*x': 'x',
+        'x*1': 'x',
+        '0*x': '0',
+        'x*0': '0',
+        'x**1': 'x',
+        'x+-': 'x-',
+        'x--': 'x+'
     };
+    
+    let simplified = expr;
+    for (const [pattern, replacement] of Object.entries(simplifications)) {
+        const regex = new RegExp(pattern, 'g');
+        simplified = simplified.replace(regex, replacement);
+    }
+    
+    return simplified;
 }
 
 // Export utility functions for use in other scripts
 window.MathNexaUtils = {
-    debounce,
-    isInViewport,
-    highlightActiveNavLink,
-    initSmoothScrolling
+    parseMathExpression,
+    simplifyExpression,
+    highlightActiveNavLink
 };
