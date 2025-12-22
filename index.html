@@ -34,11 +34,11 @@
             </ul>
             
             <!-- Mobile Menu Button -->
-            <div class="hamburger">
+            <button class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-            </div>
+            </button>
         </div>
     </nav>
 
@@ -53,7 +53,7 @@
                         <span>Advanced Mathematics Tool</span>
                     </div>
                     <h1>Solve Differential Equations <span class="highlight">Step by Step</span></h1>
-                    <p class="hero-subtitle">MathNexa provides complete solutions for first-order differential equations with integrating factors and exact equation methods.</p>
+                    <p class="hero-subtitle">MathNexa provides complete solutions for first-order differential equations with integrating factors and exact equation methods. Perfect for students, educators, and professionals.</p>
                     <div class="hero-buttons">
                         <a href="solver.html" class="btn btn-primary btn-glow">
                             <i class="fas fa-play-circle"></i> Try Solver Now
@@ -66,13 +66,13 @@
                 <div class="hero-visual">
                     <div class="equation-visual">
                         <div class="equation-display">
-                            <span class="equation-text">dy/dx + P(x)y = Q(x)</span>
+                            <span class="equation-text">M(x,y)dx + N(x,y)dy = 0</span>
                             <div class="equation-steps">
-                                <div class="step">1. Identify P(x) and Q(x)</div>
-                                <div class="step">2. Compute integrating factor</div>
-                                <div class="step">3. Multiply equation</div>
-                                <div class="step">4. Integrate both sides</div>
-                                <div class="step">5. Solve for y</div>
+                                <div class="step">1. Check exactness: ∂M/∂y = ∂N/∂x</div>
+                                <div class="step">2. If exact, find ψ(x,y)</div>
+                                <div class="step">3. If not exact, find integrating factor</div>
+                                <div class="step">4. Solve the equation</div>
+                                <div class="step">5. Get solution: ψ(x,y) = C</div>
                             </div>
                         </div>
                     </div>
@@ -115,10 +115,10 @@
                     
                     <div class="feature-card glass-card">
                         <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
+                            <i class="fas fa-keyboard"></i>
                         </div>
-                        <h3>Fully Responsive</h3>
-                        <p>Works perfectly on all devices from desktop to mobile, with intuitive touch controls and optimized layouts.</p>
+                        <h3>Virtual Math Keyboard</h3>
+                        <p>Special keyboard for mathematical symbols, functions, and operators. Makes equation input easy and accurate.</p>
                     </div>
                     
                     <div class="feature-card glass-card">
@@ -131,10 +131,10 @@
                     
                     <div class="feature-card glass-card">
                         <div class="feature-icon">
-                            <i class="fas fa-infinity"></i>
+                            <i class="fas fa-mobile-alt"></i>
                         </div>
-                        <h3>Multiple Examples</h3>
-                        <p>Load example equations with one click to see how the solver handles different types of problems.</p>
+                        <h3>Fully Responsive</h3>
+                        <p>Works perfectly on all devices from desktop to mobile, with intuitive touch controls and optimized layouts.</p>
                     </div>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                         <div class="step-number">1</div>
                         <div class="step-content">
                             <h3>Enter Your Equation</h3>
-                            <p>Input your differential equation in the form M(x,y)dx + N(x,y)dy = 0</p>
+                            <p>Input your differential equation in the form M(x,y)dx + N(x,y)dy = 0 using our virtual keyboard or manual typing.</p>
                         </div>
                     </div>
                     
@@ -161,7 +161,7 @@
                         <div class="step-number">2</div>
                         <div class="step-content">
                             <h3>Check Exactness</h3>
-                            <p>MathNexa automatically checks if ∂M/∂y equals ∂N/∂x</p>
+                            <p>MathNexa automatically checks if ∂M/∂y equals ∂N/∂x and tells you if the equation is exact or not.</p>
                         </div>
                     </div>
                     
@@ -169,7 +169,7 @@
                         <div class="step-number">3</div>
                         <div class="step-content">
                             <h3>Find Integrating Factor</h3>
-                            <p>If not exact, the system finds an appropriate integrating factor</p>
+                            <p>If not exact, the system finds an appropriate integrating factor that makes the equation exact.</p>
                         </div>
                     </div>
                     
@@ -177,7 +177,7 @@
                         <div class="step-number">4</div>
                         <div class="step-content">
                             <h3>Solve Step-by-Step</h3>
-                            <p>View each integration and algebraic manipulation</p>
+                            <p>View each integration and algebraic manipulation with clear explanations at every step.</p>
                         </div>
                     </div>
                     
@@ -185,7 +185,7 @@
                         <div class="step-number">5</div>
                         <div class="step-content">
                             <h3>Get Final Solution</h3>
-                            <p>Receive the complete solution with constant of integration</p>
+                            <p>Receive the complete solution with constant of integration, ready to use in your work.</p>
                         </div>
                     </div>
                 </div>
@@ -308,9 +308,9 @@
                         <h4>Support</h4>
                         <ul>
                             <li><a href="contact.html">Contact</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#" onclick="alert('Help Center - Coming Soon!')">Help Center</a></li>
+                            <li><a href="#" onclick="alert('Privacy Policy - Coming Soon!')">Privacy Policy</a></li>
+                            <li><a href="#" onclick="alert('Terms of Use - Coming Soon!')">Terms of Use</a></li>
                         </ul>
                     </div>
                 </div>
