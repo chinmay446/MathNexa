@@ -1,327 +1,151 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MathNexa - Differential Equation Solver</title>
+    <title>Differential Equation Solver - Home</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∫</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo-container">
-                <div class="logo-icon">
-                    <i class="fas fa-integral"></i>
-                </div>
-                <a href="index.html" class="logo">Math<span>Nexa</span></a>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-calculator"></i> DE Solver</h2>
+                <p>Differential Equations Made Easy</p>
             </div>
             
-            <!-- Desktop Navigation -->
-            <ul class="nav-menu">
-                <li><a href="index.html" class="active"><i class="fas fa-home"></i> <span>Home</span></a></li>
-                <li><a href="aim.html"><i class="fas fa-bullseye"></i> <span>Aim</span></a></li>
-                <li><a href="theory.html"><i class="fas fa-book"></i> <span>Theory</span></a></li>
-                <li><a href="solver.html"><i class="fas fa-calculator"></i> <span>Solver</span></a></li>
-                <li><a href="pretest.html"><i class="fas fa-clipboard-check"></i> <span>Pre-test</span></a></li>
-                <li><a href="posttest.html"><i class="fas fa-clipboard-list"></i> <span>Post-test</span></a></li>
-                <li><a href="references.html"><i class="fas fa-link"></i> <span>References</span></a></li>
-                <li><a href="contributors.html"><i class="fas fa-users"></i> <span>Contributors</span></a></li>
-                <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="aim.html"><i class="fas fa-bullseye"></i> Aim</a></li>
+                <li><a href="theory.html"><i class="fas fa-book"></i> Theory</a></li>
+                <li><a href="solver.html"><i class="fas fa-cogs"></i> Solver</a></li>
+                <li><a href="pretest.html"><i class="fas fa-clipboard-check"></i> Pretest</a></li>
+                <li><a href="posttest.html"><i class="fas fa-clipboard-list"></i> Posttest</a></li>
+                <li><a href="references.html"><i class="fas fa-book-open"></i> References</a></li>
+                <li><a href="contributions.html"><i class="fas fa-users"></i> Contributions</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
             </ul>
             
-            <!-- Mobile Menu Button -->
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <div class="sidebar-footer">
+                <div class="theme-switcher">
+                    <span>Theme:</span>
+                    <button id="lightMode"><i class="fas fa-sun"></i></button>
+                    <button id="darkMode"><i class="fas fa-moon"></i></button>
+                </div>
+                <p class="copyright">© 2024 DE Solver</p>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <i class="fas fa-calculator"></i>
-                        <span>Advanced Mathematics Tool</span>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Differential Equation Solver</h1>
+                <p>Solve exact and non-exact differential equations step-by-step</p>
+            </header>
+
+            <div class="content">
+                <div class="hero-section">
+                    <div class="hero-text">
+                        <h2>Welcome to the Ultimate Differential Equation Learning Platform</h2>
+                        <p>This interactive platform helps you understand, solve, and master differential equations through theory, practical examples, and step-by-step solutions.</p>
+                        <div class="cta-buttons">
+                            <a href="solver.html" class="btn btn-primary">Try Solver Now</a>
+                            <a href="theory.html" class="btn btn-secondary">Learn Theory</a>
+                        </div>
                     </div>
-                    <h1>Solve Differential Equations <span class="highlight">Step by Step</span></h1>
-                    <p class="hero-subtitle">MathNexa provides complete solutions for first-order differential equations with integrating factors and exact equation methods.</p>
-                    <div class="hero-buttons">
-                        <a href="solver.html" class="btn btn-primary btn-glow">
-                            <i class="fas fa-play-circle"></i> Try Solver Now
-                        </a>
-                        <a href="theory.html" class="btn btn-secondary">
-                            <i class="fas fa-graduation-cap"></i> Learn Theory
-                        </a>
+                    <div class="hero-image">
+                        <div class="math-equation">
+                            <p>M(x,y)dx + N(x,y)dy = 0</p>
+                        </div>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="equation-visual">
-                        <div class="equation-display">
-                            <span class="equation-text">dy/dx + P(x)y = Q(x)</span>
-                            <div class="equation-steps">
-                                <div class="step">1. Identify P(x) and Q(x)</div>
-                                <div class="step">2. Compute integrating factor</div>
-                                <div class="step">3. Multiply equation</div>
-                                <div class="step">4. Integrate both sides</div>
-                                <div class="step">5. Solve for y</div>
+
+                <div class="features">
+                    <h2 class="section-title">Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-calculator"></i>
                             </div>
+                            <h3>Equation Solver</h3>
+                            <p>Solve exact and non-exact differential equations with step-by-step solutions.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h3>Comprehensive Theory</h3>
+                            <p>Learn the concepts behind exact and non-exact differential equations.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <h3>Interactive Tests</h3>
+                            <p>Test your knowledge with pretests and posttests to track your progress.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Visual Learning</h3>
+                            <p>Visualize solutions and understand the behavior of differential equations.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Features Section -->
-        <section class="features-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Powerful Features</h2>
-                    <p class="section-subtitle">Everything you need to master differential equations</p>
-                </div>
-                
-                <div class="features-grid">
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-check-double"></i>
-                        </div>
-                        <h3>Exact Equation Check</h3>
-                        <p>Automatically determines if your differential equation is exact with step-by-step verification of the condition ∂M/∂y = ∂N/∂x.</p>
-                    </div>
-                    
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-magic"></i>
-                        </div>
-                        <h3>Integrating Factor Finder</h3>
-                        <p>Finds integrating factors for non-exact equations, whether they depend on x only, y only, or in special cases both variables.</p>
-                    </div>
-                    
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-list-ol"></i>
-                        </div>
-                        <h3>Step-by-Step Solutions</h3>
-                        <p>Get detailed solutions showing every algebraic manipulation, integration step, and simplification process.</p>
-                    </div>
-                    
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Fully Responsive</h3>
-                        <p>Works perfectly on all devices from desktop to mobile, with intuitive touch controls and optimized layouts.</p>
-                    </div>
-                    
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3>Learning Tools</h3>
-                        <p>Pre-tests and post-tests to assess your understanding, plus comprehensive theory explanations.</p>
-                    </div>
-                    
-                    <div class="feature-card glass-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-infinity"></i>
-                        </div>
-                        <h3>Multiple Examples</h3>
-                        <p>Load example equations with one click to see how the solver handles different types of problems.</p>
+                <div class="quick-links">
+                    <h2 class="section-title">Quick Navigation</h2>
+                    <div class="links-grid">
+                        <a href="solver.html" class="link-card">
+                            <i class="fas fa-cogs"></i>
+                            <span>Solver Tool</span>
+                        </a>
+                        <a href="theory.html" class="link-card">
+                            <i class="fas fa-book-open"></i>
+                            <span>Learn Theory</span>
+                        </a>
+                        <a href="pretest.html" class="link-card">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Take Pretest</span>
+                        </a>
+                        <a href="posttest.html" class="link-card">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Take Posttest</span>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- How It Works Section -->
-        <section class="workflow-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">How MathNexa Works</h2>
-                    <p class="section-subtitle">Solve differential equations in 5 simple steps</p>
-                </div>
-                
-                <div class="workflow-steps">
-                    <div class="step-container">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Enter Your Equation</h3>
-                            <p>Input your differential equation in the form M(x,y)dx + N(x,y)dy = 0</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step-container">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Check Exactness</h3>
-                            <p>MathNexa automatically checks if ∂M/∂y equals ∂N/∂x</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step-container">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Find Integrating Factor</h3>
-                            <p>If not exact, the system finds an appropriate integrating factor</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step-container">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>Solve Step-by-Step</h3>
-                            <p>View each integration and algebraic manipulation</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step-container">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <h3>Get Final Solution</h3>
-                            <p>Receive the complete solution with constant of integration</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="workflow-cta">
-                    <a href="solver.html" class="btn btn-primary btn-large btn-glow">
-                        <i class="fas fa-rocket"></i> Start Solving Now
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quick Examples Section -->
-        <section class="examples-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Quick Examples</h2>
-                    <p class="section-subtitle">Try these common differential equation types</p>
-                </div>
-                
-                <div class="examples-grid">
-                    <div class="example-card glass-card">
-                        <div class="example-equation">
-                            <span>2xy dx + x² dy = 0</span>
-                        </div>
-                        <div class="example-info">
+                <div class="recent-equations">
+                    <h2 class="section-title">Example Equations</h2>
+                    <div class="equation-examples">
+                        <div class="equation-card">
                             <h4>Exact Equation</h4>
-                            <p>∂M/∂y = 2x, ∂N/∂x = 2x</p>
-                            <a href="solver.html?example=1" class="btn btn-small">
-                                <i class="fas fa-external-link-alt"></i> Solve
-                            </a>
+                            <div class="equation">(2xy + y²)dx + (x² + 2xy)dy = 0</div>
+                            <a href="solver.html" class="btn-small">Solve This</a>
                         </div>
-                    </div>
-                    
-                    <div class="example-card glass-card">
-                        <div class="example-equation">
-                            <span>y dx + 2x dy = 0</span>
+                        <div class="equation-card">
+                            <h4>Non-Exact Equation</h4>
+                            <div class="equation">(3x²y + 2xy + y³)dx + (x² + y²)dy = 0</div>
+                            <a href="solver.html" class="btn-small">Solve This</a>
                         </div>
-                        <div class="example-info">
-                            <h4>Non-Exact (μ = x)</h4>
-                            <p>Requires integrating factor</p>
-                            <a href="solver.html?example=2" class="btn btn-small">
-                                <i class="fas fa-external-link-alt"></i> Solve
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="example-card glass-card">
-                        <div class="example-equation">
-                            <span>(3x²+y) dx + (x-2y) dy = 0</span>
-                        </div>
-                        <div class="example-info">
-                            <h4>Exact with Both Variables</h4>
-                            <p>∂M/∂y = 1, ∂N/∂x = 1</p>
-                            <a href="solver.html?example=3" class="btn btn-small">
-                                <i class="fas fa-external-link-alt"></i> Solve
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="example-card glass-card">
-                        <div class="example-equation">
-                            <span>y² dx + 2xy dy = 0</span>
-                        </div>
-                        <div class="example-info">
-                            <h4>Exact Equation</h4>
-                            <p>Solution: xy² = C</p>
-                            <a href="solver.html?example=4" class="btn btn-small">
-                                <i class="fas fa-external-link-alt"></i> Solve
-                            </a>
+                        <div class="equation-card">
+                            <h4>Linear Equation</h4>
+                            <div class="equation">dy/dx + P(x)y = Q(x)</div>
+                            <a href="solver.html" class="btn-small">Solve This</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <div class="logo-container">
-                        <div class="logo-icon">
-                            <i class="fas fa-integral"></i>
-                        </div>
-                        <a href="index.html" class="logo">Math<span>Nexa</span></a>
-                    </div>
-                    <p class="footer-tagline">Advanced differential equation solver with step-by-step solutions.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Navigation</h4>
-                        <ul>
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="aim.html">Aim</a></li>
-                            <li><a href="theory.html">Theory</a></li>
-                            <li><a href="solver.html">Solver</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h4>Learning</h4>
-                        <ul>
-                            <li><a href="pretest.html">Pre-test</a></li>
-                            <li><a href="posttest.html">Post-test</a></li>
-                            <li><a href="references.html">References</a></li>
-                            <li><a href="contributors.html">Contributors</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h4>Support</h4>
-                        <ul>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Use</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; <span id="current-year">2023</span> MathNexa. All rights reserved. Hosted on Blogger.</p>
-                <p class="footer-note">This tool is for educational purposes. Always verify solutions for critical applications.</p>
-            </div>
-        </div>
-    </footer>
+            <footer class="page-footer">
+                <p>Educational Tool for Learning Differential Equations | Created for Academic Purposes</p>
+            </footer>
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
