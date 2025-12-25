@@ -3,554 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theory - MathNexa</title>
+    <title>Differential Equation Solver - Theory</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∫</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo-container">
-                <div class="logo-icon">
-                    <i class="fas fa-integral"></i>
-                </div>
-                <a href="index.html" class="logo">Math<span>Nexa</span></a>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-calculator"></i> DE Solver</h2>
+                <p>Differential Equations Made Easy</p>
             </div>
             
-            <!-- Desktop Navigation -->
-            <ul class="nav-menu">
-                <li><a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a></li>
-                <li><a href="aim.html"><i class="fas fa-bullseye"></i> <span>Aim</span></a></li>
-                <li><a href="theory.html" class="active"><i class="fas fa-book"></i> <span>Theory</span></a></li>
-                <li><a href="solver.html"><i class="fas fa-calculator"></i> <span>Solver</span></a></li>
-                <li><a href="pretest.html"><i class="fas fa-clipboard-check"></i> <span>Pre-test</span></a></li>
-                <li><a href="posttest.html"><i class="fas fa-clipboard-list"></i> <span>Post-test</span></a></li>
-                <li><a href="references.html"><i class="fas fa-link"></i> <span>References</span></a></li>
-                <li><a href="contributors.html"><i class="fas fa-users"></i> <span>Contributors</span></a></li>
-                <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="aim.html"><i class="fas fa-bullseye"></i> Aim</a></li>
+                <li class="active"><a href="theory.html"><i class="fas fa-book"></i> Theory</a></li>
+                <li><a href="solver.html"><i class="fas fa-cogs"></i> Solver</a></li>
+                <li><a href="pretest.html"><i class="fas fa-clipboard-check"></i> Pretest</a></li>
+                <li><a href="posttest.html"><i class="fas fa-clipboard-list"></i> Posttest</a></li>
+                <li><a href="references.html"><i class="fas fa-book-open"></i> References</a></li>
+                <li><a href="contributions.html"><i class="fas fa-users"></i> Contributions</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
             </ul>
             
-            <!-- Mobile Menu Button -->
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <div class="sidebar-footer">
+                <div class="theme-switcher">
+                    <span>Theme:</span>
+                    <button id="lightMode"><i class="fas fa-sun"></i></button>
+                    <button id="darkMode"><i class="fas fa-moon"></i></button>
+                </div>
+                <p class="copyright">© 2024 DE Solver</p>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Page Header -->
-        <section class="page-header">
-            <div class="container">
-                <div class="header-content">
-                    <h1>Differential Equations Theory</h1>
-                    <p class="header-subtitle">Complete guide to exact equations and integrating factors</p>
-                </div>
-                <div class="header-illustration">
-                    <i class="fas fa-book-open"></i>
-                </div>
-            </div>
-        </section>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Theory of Differential Equations</h1>
+                <p>Comprehensive guide to exact and non-exact differential equations</p>
+            </header>
 
-        <!-- Theory Content -->
-        <section class="content-section">
-            <div class="container">
-                <div class="theory-container">
-                    <!-- Theory Navigation -->
-                    <div class="theory-nav glass-card">
-                        <h3>Contents</h3>
-                        <ul class="theory-toc">
-                            <li><a href="#section-exact" class="toc-link active">Exact Equations</a></li>
-                            <li><a href="#section-integrating" class="toc-link">Integrating Factors</a></li>
-                            <li><a href="#section-methods" class="toc-link">Solution Methods</a></li>
-                            <li><a href="#section-examples" class="toc-link">Worked Examples</a></li>
-                            <li><a href="#section-applications" class="toc-link">Applications</a></li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Theory Content -->
-                    <div class="theory-content">
-                        <!-- Exact Equations Section -->
-                        <div id="section-exact" class="theory-section">
-                            <div class="section-header">
-                                <h2><i class="fas fa-check-double"></i> Exact Differential Equations</h2>
-                                <div class="section-badge">Fundamental Concept</div>
-                            </div>
-                            
-                            <div class="theory-card glass-card">
-                                <h3>Definition</h3>
-                                <p>A first-order differential equation of the form:</p>
-                                <div class="math-display">
-                                    M(x, y)dx + N(x, y)dy = 0
-                                </div>
-                                <p>is called <strong>exact</strong> if there exists a function ψ(x, y) such that:</p>
-                                <div class="math-display">
-                                    dψ = M dx + N dy
-                                </div>
-                                <p>Equivalently, the equation is exact if and only if:</p>
-                                <div class="math-display">
-                                    \frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}
-                                </div>
-                            </div>
-                            
-                            <div class="theory-card glass-card">
-                                <h3>Why This Condition?</h3>
-                                <p>If such a function ψ(x, y) exists, then by the equality of mixed partial derivatives:</p>
-                                <div class="math-display">
-                                    \frac{\partial^2 \psi}{\partial y \partial x} = \frac{\partial^2 \psi}{\partial x \partial y}
-                                </div>
-                                <p>Since:</p>
-                                <div class="math-display">
-                                    \frac{\partial \psi}{\partial x} = M \quad \text{and} \quad \frac{\partial \psi}{\partial y} = N
-                                </div>
-                                <p>We have:</p>
-                                <div class="math-display">
-                                    \frac{\partial M}{\partial y} = \frac{\partial^2 \psi}{\partial y \partial x} = \frac{\partial^2 \psi}{\partial x \partial y} = \frac{\partial N}{\partial x}
-                                </div>
-                                <p>This condition is both necessary and sufficient for exactness (on a simply connected domain).</p>
-                            </div>
-                            
-                            <div class="theory-card glass-card">
-                                <h3>Solution Method for Exact Equations</h3>
-                                <p>If the equation is exact, the solution ψ(x, y) = C (where C is a constant) can be found by:</p>
-                                <ol class="method-steps">
-                                    <li>Integrate M with respect to x, treating y as constant:
-                                        <div class="math-inline">ψ(x, y) = ∫ M dx + g(y)</div>
-                                    </li>
-                                    <li>Differentiate this result with respect to y and set equal to N:
-                                        <div class="math-inline">\frac{\partial ψ}{\partial y} = \frac{\partial}{\partial y} ∫ M dx + g'(y) = N</div>
-                                    </li>
-                                    <li>Solve for g'(y) and integrate to find g(y)</li>
-                                    <li>The general solution is ψ(x, y) = C</li>
-                                </ol>
-                            </div>
-                            
-                            <div class="example-card glass-card">
-                                <h3><i class="fas fa-lightbulb"></i> Example: Exact Equation</h3>
-                                <p>Consider the equation:</p>
-                                <div class="math-display">
-                                    (2xy) dx + (x^2) dy = 0
-                                </div>
-                                <p>Here, M = 2xy and N = x².</p>
-                                <p>Check exactness:</p>
-                                <div class="math-display">
-                                    \frac{\partial M}{\partial y} = 2x, \quad \frac{\partial N}{\partial x} = 2x
-                                </div>
-                                <p>Since they are equal, the equation is exact.</p>
-                                <p>Solution:</p>
-                                <div class="math-display">
-                                    ψ(x, y) = ∫ 2xy dx = x^2 y + g(y)
-                                </div>
-                                <div class="math-display">
-                                    \frac{\partial ψ}{\partial y} = x^2 + g'(y) = N = x^2
-                                </div>
-                                <div class="math-display">
-                                    g'(y) = 0 \Rightarrow g(y) = C_1
-                                </div>
-                                <div class="math-display">
-                                    ψ(x, y) = x^2 y = C
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Integrating Factors Section -->
-                        <div id="section-integrating" class="theory-section">
-                            <div class="section-header">
-                                <h2><i class="fas fa-magic"></i> Integrating Factors</h2>
-                                <div class="section-badge">Making Non-Exact Equations Solvable</div>
-                            </div>
-                            
-                            <div class="theory-card glass-card">
-                                <h3>What is an Integrating Factor?</h3>
-                                <p>If a differential equation M dx + N dy = 0 is not exact, we can sometimes multiply it by a function μ(x, y) to make it exact. Such a function is called an <strong>integrating factor</strong>.</p>
-                                <p>After multiplication by μ, the equation becomes:</p>
-                                <div class="math-display">
-                                    μM dx + μN dy = 0
-                                </div>
-                                <p>which is exact if:</p>
-                                <div class="math-display">
-                                    \frac{\partial (μM)}{\partial y} = \frac{\partial (μN)}{\partial x}
-                                </div>
-                            </div>
-                            
-                            <div class="theory-card glass-card">
-                                <h3>Finding Integrating Factors</h3>
-                                <p>There are special cases where we can find integrating factors easily:</p>
-                                
-                                <div class="method-card">
-                                    <h4>Case 1: μ depends only on x</h4>
-                                    <p>If (∂M/∂y - ∂N/∂x)/N is a function of x only, say f(x), then:</p>
-                                    <div class="math-display">
-                                        μ(x) = e^{\int f(x) dx}
-                                    </div>
-                                    <p>where:</p>
-                                    <div class="math-display">
-                                        f(x) = \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N}
-                                    </div>
-                                </div>
-                                
-                                <div class="method-card">
-                                    <h4>Case 2: μ depends only on y</h4>
-                                    <p>If (∂N/∂x - ∂M/∂y)/M is a function of y only, say g(y), then:</p>
-                                    <div class="math-display">
-                                        μ(y) = e^{\int g(y) dy}
-                                    </div>
-                                    <p>where:</p>
-                                    <div class="math-display">
-                                        g(y) = \frac{\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}}{M}
-                                    </div>
-                                </div>
-                                
-                                <div class="method-card">
-                                    <h4>Case 3: Special Forms</h4>
-                                    <p>For equations of specific forms, we can use known integrating factors:</p>
-                                    <ul>
-                                        <li>If M and N are homogeneous functions of the same degree: μ = 1/(xM + yN)</li>
-                                        <li>If the equation is of the form y f(xy) dx + x g(xy) dy = 0: μ = 1/(xy(M - N))</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="example-card glass-card">
-                                <h3><i class="fas fa-lightbulb"></i> Example: Using Integrating Factor</h3>
-                                <p>Consider the non-exact equation:</p>
-                                <div class="math-display">
-                                    y dx + 2x dy = 0
-                                </div>
-                                <p>Here, M = y, N = 2x.</p>
-                                <p>Check exactness:</p>
-                                <div class="math-display">
-                                    \frac{\partial M}{\partial y} = 1, \quad \frac{\partial N}{\partial x} = 2
-                                </div>
-                                <p>Not equal, so the equation is not exact.</p>
-                                <p>Try to find μ(x):</p>
-                                <div class="math-display">
-                                    \frac{\frac{\partial M}{\partial y} - \frac{\partial N}{\partial x}}{N} = \frac{1 - 2}{2x} = -\frac{1}{2x}
-                                </div>
-                                <p>This is a function of x only, so:</p>
-                                <div class="math-display">
-                                    μ(x) = e^{\int -\frac{1}{2x} dx} = e^{-\frac{1}{2} \ln x} = x^{-1/2}
-                                </div>
-                                <p>Multiply the equation by μ:</p>
-                                <div class="math-display">
-                                    x^{-1/2} y dx + 2x^{1/2} dy = 0
-                                </div>
-                                <p>Now check exactness of the new equation...</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Solution Methods Section -->
-                        <div id="section-methods" class="theory-section">
-                            <div class="section-header">
-                                <h2><i class="fas fa-tasks"></i> Solution Methods</h2>
-                                <div class="section-badge">Step-by-Step Procedures</div>
-                            </div>
-                            
-                            <div class="methodology-grid">
-                                <div class="method-card glass-card">
-                                    <div class="method-number">1</div>
-                                    <h3>Check Exactness</h3>
-                                    <p>Compute ∂M/∂y and ∂N/∂x. If equal, proceed to solve as exact equation.</p>
-                                    <div class="math-small">
-                                        ∂M/∂y = ∂N/∂x
-                                    </div>
-                                </div>
-                                
-                                <div class="method-card glass-card">
-                                    <div class="method-number">2</div>
-                                    <h3>Find Integrating Factor</h3>
-                                    <p>If not exact, check if (∂M/∂y - ∂N/∂x)/N depends only on x, or if (∂N/∂x - ∂M/∂y)/M depends only on y.</p>
-                                </div>
-                                
-                                <div class="method-card glass-card">
-                                    <div class="method-number">3</div>
-                                    <h3>Multiply and Solve</h3>
-                                    <p>Multiply the equation by the integrating factor to make it exact, then solve as an exact equation.</p>
-                                </div>
-                                
-                                <div class="method-card glass-card">
-                                    <div class="method-number">4</div>
-                                    <h3>Verify Solution</h3>
-                                    <p>Differentiate the solution implicitly to verify it satisfies the original differential equation.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flowchart-card glass-card">
-                                <h3>Solution Flowchart</h3>
-                                <div class="flowchart">
-                                    <div class="flow-step">
-                                        <div class="flow-icon"><i class="fas fa-pen"></i></div>
-                                        <div class="flow-content">
-                                            <h4>Start with M dx + N dy = 0</h4>
-                                        </div>
-                                    </div>
-                                    <div class="flow-arrow">↓</div>
-                                    <div class="flow-step">
-                                        <div class="flow-icon"><i class="fas fa-question-circle"></i></div>
-                                        <div class="flow-content">
-                                            <h4>Check: Is ∂M/∂y = ∂N/∂x?</h4>
-                                        </div>
-                                    </div>
-                                    <div class="flow-branch">
-                                        <div class="branch-yes">
-                                            <div class="flow-arrow">↓ YES</div>
-                                            <div class="flow-step">
-                                                <div class="flow-icon"><i class="fas fa-check"></i></div>
-                                                <div class="flow-content">
-                                                    <h4>Equation is exact</h4>
-                                                    <p>Solve by finding ψ(x,y) such that dψ = M dx + N dy</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="branch-no">
-                                            <div class="flow-arrow">↓ NO</div>
-                                            <div class="flow-step">
-                                                <div class="flow-icon"><i class="fas fa-search"></i></div>
-                                                <div class="flow-content">
-                                                    <h4>Find integrating factor</h4>
-                                                    <p>Check for μ(x) or μ(y)</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flow-arrow">↓</div>
-                                    <div class="flow-step">
-                                        <div class="flow-icon"><i class="fas fa-check-circle"></i></div>
-                                        <div class="flow-content">
-                                            <h4>Solution: ψ(x,y) = C</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Worked Examples Section -->
-                        <div id="section-examples" class="theory-section">
-                            <div class="section-header">
-                                <h2><i class="fas fa-calculator"></i> Worked Examples</h2>
-                                <div class="section-badge">Practice Problems with Solutions</div>
-                            </div>
-                            
-                            <div class="examples-tabs">
-                                <div class="tab-buttons">
-                                    <button class="tab-btn active" data-tab="example1">Example 1</button>
-                                    <button class="tab-btn" data-tab="example2">Example 2</button>
-                                    <button class="tab-btn" data-tab="example3">Example 3</button>
-                                </div>
-                                
-                                <div class="tab-content active" id="example1">
-                                    <h3>Exact Equation: (3x² + y) dx + (x - 2y) dy = 0</h3>
-                                    <div class="solution-step">
-                                        <h4>Step 1: Identify M and N</h4>
-                                        <p>M = 3x² + y, N = x - 2y</p>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 2: Check exactness</h4>
-                                        <div class="math-display">
-                                            ∂M/∂y = 1, ∂N/∂x = 1
-                                        </div>
-                                        <p>Since they are equal, the equation is exact.</p>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 3: Find ψ(x, y)</h4>
-                                        <div class="math-display">
-                                            ψ = ∫ M dx = ∫ (3x² + y) dx = x³ + xy + g(y)
-                                        </div>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 4: Differentiate and compare with N</h4>
-                                        <div class="math-display">
-                                            ∂ψ/∂y = x + g'(y) = N = x - 2y
-                                        </div>
-                                        <div class="math-display">
-                                            g'(y) = -2y ⇒ g(y) = -y²
-                                        </div>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 5: Write general solution</h4>
-                                        <div class="math-display">
-                                            ψ(x, y) = x³ + xy - y² = C
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="tab-content" id="example2">
-                                    <h3>Non-Exact Equation: y dx - x dy = 0</h3>
-                                    <div class="solution-step">
-                                        <h4>Step 1: Identify M and N</h4>
-                                        <p>M = y, N = -x</p>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 2: Check exactness</h4>
-                                        <div class="math-display">
-                                            ∂M/∂y = 1, ∂N/∂x = -1
-                                        </div>
-                                        <p>Not equal, so the equation is not exact.</p>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 3: Find integrating factor</h4>
-                                        <div class="math-display">
-                                            \frac{∂M/∂y - ∂N/∂x}{N} = \frac{1 - (-1)}{-x} = -\frac{2}{x}
-                                        </div>
-                                        <p>This is a function of x only, so:</p>
-                                        <div class="math-display">
-                                            μ(x) = e^{\int -2/x dx} = e^{-2\ln x} = x^{-2}
-                                        </div>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 4: Multiply and solve</h4>
-                                        <p>After multiplying by μ = 1/x², the equation becomes exact and can be solved.</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="tab-content" id="example3">
-                                    <h3>Exact Equation: (2xy + y²) dx + (x² + 2xy) dy = 0</h3>
-                                    <div class="solution-step">
-                                        <h4>Step 1: Identify M and N</h4>
-                                        <p>M = 2xy + y², N = x² + 2xy</p>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 2: Check exactness</h4>
-                                        <div class="math-display">
-                                            ∂M/∂y = 2x + 2y, ∂N/∂x = 2x + 2y
-                                        </div>
-                                        <p>Equal, so exact.</p>
-                                    </div>
-                                    <div class="solution-step">
-                                        <h4>Step 3: Solution</h4>
-                                        <div class="math-display">
-                                            ψ(x, y) = x²y + xy² = C
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Applications Section -->
-                        <div id="section-applications" class="theory-section">
-                            <div class="section-header">
-                                <h2><i class="fas fa-rocket"></i> Applications</h2>
-                                <div class="section-badge">Real-World Uses</div>
-                            </div>
-                            
-                            <div class="applications-grid">
-                                <div class="app-card glass-card">
-                                    <div class="app-icon">
-                                        <i class="fas fa-atom"></i>
-                                    </div>
-                                    <h3>Physics</h3>
-                                    <p>Newton's laws of motion, heat transfer, wave equations, and quantum mechanics all involve differential equations.</p>
-                                </div>
-                                
-                                <div class="app-card glass-card">
-                                    <div class="app-icon">
-                                        <i class="fas fa-bolt"></i>
-                                    </div>
-                                    <h3>Engineering</h3>
-                                    <p>Circuit analysis, control systems, fluid dynamics, and structural analysis rely on differential equations.</p>
-                                </div>
-                                
-                                <div class="app-card glass-card">
-                                    <div class="app-icon">
-                                        <i class="fas fa-chart-line"></i>
-                                    </div>
-                                    <h3>Economics</h3>
-                                    <p>Economic growth models, option pricing, and market equilibrium analysis use differential equations.</p>
-                                </div>
-                                
-                                <div class="app-card glass-card">
-                                    <div class="app-icon">
-                                        <i class="fas fa-dna"></i>
-                                    </div>
-                                    <h3>Biology</h3>
-                                    <p>Population dynamics, epidemiology, and biochemical reactions are modeled with differential equations.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="content">
+                <div class="theory-tabs">
+                    <button class="theory-tab active" data-tab="exact">Exact Equations</button>
+                    <button class="theory-tab" data-tab="non-exact">Non-Exact Equations</button>
+                    <button class="theory-tab" data-tab="methods">Solution Methods</button>
+                    <button class="theory-tab" data-tab="applications">Applications</button>
                 </div>
-            </div>
-        </section>
-        
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-card glass-card">
-                    <h2>Ready to Solve Equations?</h2>
-                    <p>Apply what you've learned using our interactive differential equation solver.</p>
-                    <a href="solver.html" class="btn btn-primary btn-large btn-glow">
-                        <i class="fas fa-calculator"></i> Go to Equation Solver
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <div class="logo-container">
-                        <div class="logo-icon">
-                            <i class="fas fa-integral"></i>
+                <div class="theory-content">
+                    <!-- Exact Equations Tab -->
+                    <div id="exact-tab" class="tab-content active">
+                        <h2>Exact Differential Equations</h2>
+                        
+                        <div class="definition-box">
+                            <h3><i class="fas fa-info-circle"></i> Definition</h3>
+                            <p>A differential equation of the form:</p>
+                            <div class="equation-display">
+                                M(x,y)dx + N(x,y)dy = 0
+                            </div>
+                            <p>is said to be <strong>exact</strong> if there exists a function u(x,y) such that:</p>
+                            <div class="equation-display">
+                                ∂u/∂x = M(x,y) and ∂u/∂y = N(x,y)
+                            </div>
                         </div>
-                        <a href="index.html" class="logo">Math<span>Nexa</span></a>
-                    </div>
-                    <p class="footer-tagline">Advanced differential equation solver with step-by-step solutions.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Navigation</h4>
-                        <ul>
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="aim.html">Aim</a></li>
-                            <li><a href="theory.html">Theory</a></li>
-                            <li><a href="solver.html">Solver</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h4>Learning</h4>
-                        <ul>
-                            <li><a href="pretest.html">Pre-test</a></li>
-                            <li><a href="posttest.html">Post-test</a></li>
-                            <li><a href="references.html">References</a></li>
-                            <li><a href="contributors.html">Contributors</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h4>Support</h4>
-                        <ul>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Use</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; <span id="current-year">2023</span> MathNexa. All rights reserved. Hosted on Blogger.</p>
-                <p class="footer-note">This tool is for educational purposes. Always verify solutions for critical applications.</p>
-            </div>
-        </div>
-    </footer>
 
+                        <div class="theory-section">
+                            <h3><i class="fas fa-check-circle"></i> Condition for Exactness</h3>
+                            <p>The necessary and sufficient condition for the differential equation to be exact is:</p>
+                            <div class="equation-display">
+                                ∂M/∂y = ∂N/∂x
+                            </div>
+                            <p>This condition ensures that the mixed partial derivatives are equal, which is required by Clairaut's theorem.</p>
+                        </div>
+
+                        <div class="theory-section">
+                            <h3><i class="fas fa-cogs"></i> Method of Solution</h3>
+                            <ol class="method-steps">
+                                <li>
+                                    <strong>Step 1: Verify Exactness</strong>
+                                    <p>Check if ∂M/∂y = ∂N/∂x</p>
+                                </li>
+                                <li>
+                                    <strong>Step 2: Integrate M with respect to x</strong>
+                                    <p>u(x,y) = ∫M(x,y)dx + φ(y)</p>
+                                </li>
+                                <li>
+                                    <strong>Step 3: Differentiate with respect to y</strong>
+                                    <p>∂u/∂y = ∂/∂y[∫M(x,y)dx] + φ'(y)</p>
+                                </li>
+                                <li>
+                                    <strong>Step 4: Compare with N(x,y)</strong>
+                                    <p>Set ∂u/∂y = N(x,y) and solve for φ'(y)</p>
+                                </li>
+                                <li>
+                                    <strong>Step 5: Integrate to find φ(y)</strong>
+                                    <p>φ(y) = ∫φ'(y)dy</p>
+                                </li>
+                                <li>
+                                    <strong>Step 6: Write the general solution</strong>
+                                    <p>u(x,y) = C, where C is the constant of integration</p>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div class="example-box">
+                            <h3><i class="fas fa-lightbulb"></i> Example</h3>
+                            <p>Solve: (2xy + y²)dx + (x² + 2xy)dy = 0</p>
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <strong>Step 1: Check exactness</strong>
+                                    <p>M = 2xy + y², N = x² + 2xy</p>
+                                    <p>∂M/∂y = 2x + 2y</p>
+                                    <p>∂N/∂x = 2x + 2y</p>
+                                    <p>Since ∂M/∂y = ∂N/∂x, the equation is exact.</p>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 2: Integrate M with respect to x</strong>
+                                    <p>u(x,y) = ∫(2xy + y²)dx = x²y + xy² + φ(y)</p>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 3: Differentiate with respect to y</strong>
+                                    <p>∂u/∂y = x² + 2xy + φ'(y)</p>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 4: Compare with N</strong>
+                                    <p>Set x² + 2xy + φ'(y) = x² + 2xy</p>
+                                    <p>Thus, φ'(y) = 0</p>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 5: Integrate φ'(y)</strong>
+                                    <p>φ(y) = C₁</p>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 6: General solution</strong>
+                                    <p>u(x,y) = x²y + xy² = C</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Non-Exact Equations Tab -->
+                    <div id="non-exact-tab" class="tab-content">
+                        <h2>Non-Exact Differential Equations</h2>
+                        
+                        <div class="definition-box">
+                            <h3><i class="fas fa-info-circle"></i> Definition</h3>
+                            <p>A differential equation of the form:</p>
+                            <div class="equation-display">
+                                M(x,y)dx + N(x,y)dy = 0
+                            </div>
+                            <p>is said to be <strong>non-exact</strong> if:</p>
+                            <div class="equation-display">
+                                ∂M/∂y ≠ ∂N/∂x
+                            </div>
+                        </div>
+
+                        <div class="theory-section">
+                            <h3><i class="fas fa-magic"></i> Integrating Factors</h3>
+                            <p>Non-exact equations can sometimes be made exact by multiplying by an integrating factor μ(x,y):</p>
+                            <div class="equation-display">
+                                μ(x,y)M(x,y)dx + μ(x,y)N(x,y)dy = 0
+                            </div>
+                            <p>The new equation becomes exact if μ satisfies:</p>
+                            <div class="equation-display">
+                                ∂(μM)/∂y = ∂(μN)/∂x
+                            </div>
+                        </div>
+
+                        <div class="theory-section">
+                            <h3><i class="fas fa-search"></i> Finding Integrating Factors</h3>
+                            
+                            <div class="method-card">
+                                <h4>Case 1: Integrating factor depends only on x</h4>
+                                <p>If (∂M/∂y - ∂N/∂x)/N is a function of x only, say f(x), then:</p>
+                                <div class="equation-display">
+                                    μ(x) = e^∫f(x)dx
+                                </div>
+                            </div>
+
+                            <div class="method-card">
+                                <h4>Case 2: Integrating factor depends only on y</h4>
+                                <p>If (∂N/∂x - ∂M/∂y)/M is a function of y only, say g(y), then:</p>
+                                <div class="equation-display">
+                                    μ(y) = e^∫g(y)dy
+                                </div>
+                            </div>
+
+                            <div class="method-card">
+                                <h4>Case 3: Special integrating factors</h4>
+                                <p>For equations of specific forms, we can try:</p>
+                                <ul>
+                                    <li>μ = x^m y^n</li>
+                                    <li>μ = e^(αx + βy)</li>
+                                    <li>μ = 1/(xM + yN) for homogeneous equations</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="example-box">
+                            <h3><i class="fas fa-lightbulb"></i> Example</h3>
+                            <p>Solve: (3x²y + 2xy + y³)dx + (x² + y²)dy = 0</p>
+                            <div class="solution-steps">
+                                <div class="step">
+                                    <strong>Step 1: Check exactness</strong>
+                                    <p>M = 3x²y + 2xy + y³, N = x² + y²</p>
+                                    <p>∂M/∂y = 3x² + 2x + 3y²</p>
+                                    <p>∂N/∂x = 2x</p>
+                                    <p>Since ∂M/∂y ≠ ∂N/∂x, the equation is non-exact.</p>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 2: Try integrating factor</strong>
+                                    <p>(∂M/∂y - ∂N/∂x)/N = (3x² + 2x + 3y² - 2x)/(x² + y²) = 3</p>
+                                    <p>This is a constant, so we can use μ = e^∫3dx = e^(3x)</p>
+                                </div>
+                                <div class="step">
+                                    <strong>Step 3: Multiply by integrating factor</strong>
+                                    <p>The equation becomes exact and can be solved.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solution Methods Tab -->
+                    <div id="methods-tab" class="tab-content">
+                        <h2>Solution Methods</h2>
+                        
+                        <div class="methods-grid">
+                            <div class="method-card">
+                                <div class="method-icon">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                                <h3>Direct Integration</h3>
+                                <p>For separable equations where variables can be separated.</p>
+                                <div class="equation-small">
+                                    dy/dx = f(x)g(y)
+                                </div>
+                            </div>
+
+                            <div class="method-card">
+                                <div class="method-icon">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <h3>Homogeneous Equations</h3>
+                                <p>Equations where M and N are homogeneous functions of the same degree.</p>
+                                <div class="equation-small">
+                                    Use substitution: y = vx
+                                </div>
+                            </div>
+
+                            <div class="method-card">
+                                <div class="method-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <h3>Linear Equations</h3>
+                                <p>Equations of the form dy/dx + P(x)y = Q(x).</p>
+                                <div class="equation-small">
+                                    Integrating factor: e^∫P(x)dx
+                                </div>
+                            </div>
+
+                            <div class="method-card">
+                                <div class="method-icon">
+                                    <i class="fas fa-exactness"></i>
+                                </div>
+                                <h3>Exact Equations</h3>
+                                <p>Solve by finding potential function u(x,y).</p>
+                                <div class="equation-small">
+                                    ∂M/∂y = ∂N/∂x
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flowchart">
+                            <h3>Method Selection Flowchart</h3>
+                            <div class="flowchart-container">
+                                <div class="flowchart-step">
+                                    <div class="flowchart-box">Given: M(x,y)dx + N(x,y)dy = 0</div>
+                                    <div class="flowchart-arrow">↓</div>
+                                    <div class="flowchart-box">Check if separable</div>
+                                    <div class="flowchart-arrow">↓</div>
+                                    <div class="flowchart-box">Check if homogeneous</div>
+                                    <div class="flowchart-arrow">↓</div>
+                                    <div class="flowchart-box">Check exactness: ∂M/∂y = ∂N/∂x?</div>
+                                    <div class="flowchart-arrow">↓</div>
+                                    <div class="flowchart-box">
+                                        <div>If exact: Solve directly</div>
+                                        <div>If not: Find integrating factor</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Tab -->
+                    <div id="applications-tab" class="tab-content">
+                        <h2>Applications of Differential Equations</h2>
+                        
+                        <div class="applications-grid">
+                            <div class="application-card">
+                                <div class="app-icon physics">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <h3>Physics</h3>
+                                <ul>
+                                    <li>Newton's laws of motion</li>
+                                    <li>Heat conduction equations</li>
+                                    <li>Wave equations</li>
+                                    <li>Quantum mechanics</li>
+                                </ul>
+                            </div>
+
+                            <div class="application-card">
+                                <div class="app-icon engineering">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <h3>Engineering</h3>
+                                <ul>
+                                    <li>Circuit analysis</li>
+                                    <li>Control systems</li>
+                                    <li>Fluid dynamics</li>
+                                    <li>Structural analysis</li>
+                                </ul>
+                            </div>
+
+                            <div class="application-card">
+                                <div class="app-icon biology">
+                                    <i class="fas fa-dna"></i>
+                                </div>
+                                <h3>Biology</h3>
+                                <ul>
+                                    <li>Population dynamics</li>
+                                    <li>Epidemiology models</li>
+                                    <li>Biochemical reactions</li>
+                                    <li>Neural networks</li>
+                                </ul>
+                            </div>
+
+                            <div class="application-card">
+                                <div class="app-icon economics">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h3>Economics</h3>
+                                <ul>
+                                    <li>Economic growth models</li>
+                                    <li>Market equilibrium</li>
+                                    <li>Optimal control theory</li>
+                                    <li>Financial mathematics</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="real-world-example">
+                            <h3><i class="fas fa-globe"></i> Real-World Example: Population Growth</h3>
+                            <p>The logistic growth model is described by:</p>
+                            <div class="equation-display">
+                                dP/dt = rP(1 - P/K)
+                            </div>
+                            <p>Where:</p>
+                            <ul>
+                                <li>P = Population size</li>
+                                <li>r = Intrinsic growth rate</li>
+                                <li>K = Carrying capacity</li>
+                            </ul>
+                            <p>This non-linear differential equation models how populations grow with limited resources.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="page-footer">
+                <p>Educational Tool for Learning Differential Equations | Created for Academic Purposes</p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="script.js"></script>
     <script src="theory.js"></script>
 </body>
