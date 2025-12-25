@@ -502,4 +502,181 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add click handler to show more details
             card.addEventListener('click', function() {
-                const title = this.querySelector('h3').text
+                const title = this.querySelector('h3').textContent;
+                showApplicationDetails(title);
+            });
+        });
+        
+        // Add CSS for application card animations
+        if (!document.querySelector('#app-card-styles')) {
+            const style = document.createElement('style');
+            style.id = 'app-card-styles';
+            style.textContent = `
+                .app-icon {
+                    transition: transform 0.3s ease;
+                }
+                
+                .app-icon.physics { color: #e74c3c; }
+                .app-icon.engineering { color: #3498db; }
+                .app-icon.biology { color: #2ecc71; }
+                .app-icon.economics { color: #f39c12; }
+                
+                .application-card {
+                    cursor: pointer;
+                    transition: transform 0.3s ease;
+                }
+                
+                .application-card:hover {
+                    transform: translateY(-5px);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    function showApplicationDetails(field) {
+        const details = getApplicationDetails(field);
+        
+        // Create modal similar to flowchart modal
+        let modal = document.querySelector('.application-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.className = 'application-modal flowchart-modal';
+            modal.innerHTML = `
+                <div class="application-modal-content flowchart-modal-content">
+                    <div class="modal-header">
+                        <h3>${details.title}</h3>
+                        <button class="modal-close"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        ${details.content}
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Add close handlers
+            modal.querySelector('.modal-close').addEventListener('click', function() {
+                modal.classList.remove('active');
+            });
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        } else {
+            modal.querySelector('h3').textContent = details.title;
+            modal.querySelector('.modal-body').innerHTML = details.content;
+        }
+        
+        // Show modal
+        modal.classList.add('active');
+    }
+    
+    function getApplicationDetails(field) {
+        const applications = {
+            'Physics': {
+                title: 'Differential Equations in Physics',
+                content: `
+                    <div class="application-detail">
+                        <h4><i class="fas fa-atom"></i> Key Applications:</h4>
+                        <ul>
+                            <li><strong>Newton's Second Law:</strong> F = ma leads to second-order differential equations</li>
+                            <li><strong>Heat Equation:</strong> ∂u/∂t = α∇²u describes heat diffusion</li>
+                            <li><strong>Wave Equation:</strong> ∂²u/∂t² = c²∇²u describes wave propagation</li>
+                            <li><strong>Schrödinger Equation:</strong> iħ∂ψ/∂t = Ĥψ in quantum mechanics</li>
+                            <li><strong>Maxwell's Equations:</strong> Differential form describes electromagnetic fields</li>
+                        </ul>
+                        
+                        <h4><i class="fas fa-flask"></i> Example: Simple Harmonic Motion</h4>
+                        <div class="equation">m(d²x/dt²) + kx = 0</div>
+                        <p>Solution: x(t) = A cos(ωt + φ) where ω = √(k/m)</p>
+                    </div>
+                `
+            },
+            'Engineering': {
+                title: 'Differential Equations in Engineering',
+                content: `
+                    <div class="application-detail">
+                        <h4><i class="fas fa-cogs"></i> Key Applications:</h4>
+                        <ul>
+                            <li><strong>Circuit Analysis:</strong> RLC circuits described by differential equations</li>
+                            <li><strong>Control Systems:</strong> State-space representation uses differential equations</li>
+                            <li><strong>Fluid Dynamics:</strong> Navier-Stokes equations describe fluid flow</li>
+                            <li><strong>Structural Analysis:</strong> Beam deflection equations</li>
+                            <li><strong>Signal Processing:</strong> Filter design using differential equations</li>
+                        </ul>
+                        
+                        <h4><i class="fas fa-bolt"></i> Example: RLC Circuit</h4>
+                        <div class="equation">L(d²i/dt²) + R(di/dt) + (1/C)i = 0</div>
+                        <p>Describes current in an electrical circuit with resistor, inductor, and capacitor.</p>
+                    </div>
+                `
+            },
+            'Biology': {
+                title: 'Differential Equations in Biology',
+                content: `
+                    <div class="application-detail">
+                        <h4><i class="fas fa-dna"></i> Key Applications:</h4>
+                        <ul>
+                            <li><strong>Population Dynamics:</strong> Logistic growth model dP/dt = rP(1-P/K)</li>
+                            <li><strong>Epidemiology:</strong> SIR model for disease spread</li>
+                            <li><strong>Biochemistry:</strong> Michaelis-Menten kinetics</li>
+                            <li><strong>Neuroscience:</strong> Hodgkin-Huxley model of neuron firing</li>
+                            <li><strong>Pharmacokinetics:</strong> Drug concentration over time</li>
+                        </ul>
+                        
+                        <h4><i class="fas fa-virus"></i> Example: Logistic Growth</h4>
+                        <div class="equation">dP/dt = rP(1 - P/K)</div>
+                        <p>Where P is population, r is growth rate, K is carrying capacity.</p>
+                        <p>Solution: P(t) = K/(1 + Ae^(-rt)) where A = (K - P₀)/P₀</p>
+                    </div>
+                `
+            },
+            'Economics': {
+                title: 'Differential Equations in Economics',
+                content: `
+                    <div class="application-detail">
+                        <h4><i class="fas fa-chart-line"></i> Key Applications:</h4>
+                        <ul>
+                            <li><strong>Economic Growth:</strong> Solow-Swan growth model</li>
+                            <li><strong>Optimal Control:</strong> Hamilton-Jacobi-Bellman equation</li>
+                            <li><strong>Market Equilibrium:</strong> Differential equations in dynamic systems</li>
+                            <li><strong>Financial Mathematics:</strong> Black-Scholes equation for option pricing</li>
+                            <li><strong>Macroeconomics:</strong> IS-LM model dynamics</li>
+                        </ul>
+                        
+                        <h4><i class="fas fa-money-bill-wave"></i> Example: Solow Growth Model</h4>
+                        <div class="equation">dk/dt = s·f(k) - (n + δ)k</div>
+                        <p>Where k is capital per worker, s is savings rate, n is population growth, δ is depreciation.</p>
+                    </div>
+                `
+            }
+        };
+        
+        return applications[field] || {
+            title: field,
+            content: `<p>Application details for ${field} will be added soon.</p>`
+        };
+    }
+    
+    // Handle URL hash for direct tab navigation
+    if (window.location.hash) {
+        const tabId = window.location.hash.substring(1);
+        const tab = document.querySelector(`.theory-tab[data-tab="${tabId}"]`);
+        if (tab) {
+            setTimeout(() => {
+                tab.click();
+            }, 100);
+        }
+    }
+    
+    // Export functions
+    window.theory = {
+        switchTheoryTab,
+        showExample,
+        showFlowchartInfo,
+        showApplicationDetails
+    };
+});
